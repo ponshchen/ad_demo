@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transformer</title>
+</head>
+<body style="margin: 0;">
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <div style="width: 100%; position: relative;">
+    <div style="width: 100vw; position: absolute; top: 0; z-index: -1;" id="videoContainer">
+      <video muted loop style="width: 100%" id="video">
+        <source src="./images/transformer/video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+      </video>
+      <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px;" id="muteButton" />
+    </div>
+    <img src="./images/transformer/banner.jpg" style="width: 100vw; transition: 1s;" id="banner" />
+  </div>
+  <img src="./images/background1.png" style="width: 100vw;" />
+</body>
+</html>
+<script>
+  const banner = document.getElementById('banner');
+  const video = document.getElementById('video');
+  const videoContainer = document.getElementById('videoContainer');
+  const muteButton = document.getElementById('muteButton');
+  let isShown = false;
+
+  window.addEventListener('scroll', scrollListener);
+
+  function scrollListener(event) {
+    if (!isShown && banner.getClientRects()[0].y < window.screen.height - banner.clientHeight) {
+      isShown = true;
+      window.removeEventListener('scroll', scrollListener);
+      showVideo();
+    }
+  }
+
+  function showVideo() {
+    banner.style.marginTop = `${video.clientHeight}px`;
+    setTimeout(function(){
+      video.play();
+      videoContainer.style.zIndex = '0';
+    }, 1000);
+  }
+
+  function muteButtonOnClick() {
+    video.muted = !video.muted;
+    muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
+  }
+</script>
