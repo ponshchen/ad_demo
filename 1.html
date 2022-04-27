@@ -15,6 +15,7 @@
         <source src="./images/transformer/video.mp4" type="video/mp4">
       Your browser does not support the video tag.
       </video>
+      <img src="/images/transformer/video.png" alt="" style="position: absolute; top: 0; left: 0; width: 100%;" id="fakeVideo" />
       <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px;" id="muteButton" />
     </div>
     <img src="./images/transformer/banner.jpg" style="width: 100vw; transition: 1s;" id="banner" />
@@ -25,6 +26,7 @@
 <script>
   const banner = document.getElementById('banner');
   const video = document.getElementById('video');
+  const fakeVideo = document.getElementById('fakeVideo');
   const videoContainer = document.getElementById('videoContainer');
   const muteButton = document.getElementById('muteButton');
   let isShown = false;
@@ -43,6 +45,7 @@
     banner.style.marginTop = `${video.clientHeight}px`;
     setTimeout(function(){
       video.play();
+      fakeVideo.style.display = "none";
       videoContainer.style.zIndex = '0';
     }, 1000);
   }
