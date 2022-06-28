@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="actionBtn">123</button>
+</body>
+<script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>
+<script type="text/javascript">
+  var isExpanded = false;
+  const actionBtn = document.getElementById('actionBtn')
+  
+  function expandStartHandler() {
+    // Perform expand animation.
+    // Optionally, should you want the direction to expand in call:
+    // Enabler.getExpandDirection(); //
+    // When animation finished must call
+    Enabler.finishExpand();
+  }
+  
+  function expandFinishHandler() {
+    // Convenience callback for setting
+    // final state when expanded.
+    isExpanded = true;
+  }
+  
+  function collapseStartHandler() {
+    // Perform collapse animation.
+    // When animation finished must call
+    Enabler.finishCollapse();
+  }
+  
+  function collapseFinishHandler() {
+    // Convenience callback for setting
+    // final state when collapsed.
+    isExpanded = false;
+  }
+  
+  function actionClickHandler() {
+    isExpanded ? Enabler.requestCollapse() : Enabler.requestExpand();
+  }
+  
+  Enabler.addEventListener(
+    studio.events.StudioEvent.EXPAND_START,
+    expandStartHandler);
+  Enabler.addEventListener(
+    studio.events.StudioEvent.EXPAND_FINISH,
+    expandFinishHandler);
+  Enabler.addEventListener(
+    studio.events.StudioEvent.COLLAPSE_START,
+    collapseStartHandler);
+  Enabler.addEventListener(
+    studio.events.StudioEvent.COLLAPSE_FINISH,
+    collapseFinishHandler);
+  actionBtn.addEventListener(
+    'click',
+    actionClickHandler,
+    false);
+</script>
+</html>
