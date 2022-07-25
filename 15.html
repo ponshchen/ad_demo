@@ -47,6 +47,13 @@
       .swiper-container-3d .swiper-slide-shadow-right {
         border-radius: 10%;
       }
+      #close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 24px;
+        height: 24px;
+      }
     </style>
 </head>
 <body>
@@ -54,7 +61,7 @@
   <img src="./images/background1.png" style="width: 100vw;" />
   <img src="./images/background2.png" style="width: 100vw;" />
   <div class="wrapper">
-    <div class="banner">
+    <div class="banner" id="banner">
       <!-- Swiper -->
       <div class="swiper-container">
         <div class="swiper-wrapper">
@@ -67,6 +74,7 @@
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
       </div>
+      <img src="./images/close.png" alt="" id="close" onclick="closeAd()" />
     </div>
   </div>
 </body>
@@ -128,6 +136,10 @@ function swiperAnimation(e) {
 
 function openUrl(){
   window.open('https://lihi1.com/ChMO6');
+}
+
+function closeAd(){
+  document.getElementById("banner").remove()
 }
 </script>
 </html>
