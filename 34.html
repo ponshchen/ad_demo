@@ -86,21 +86,12 @@
     <!-- Swiper -->
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img class="swiper-slide-img" src="./images/32/1.png" alt="" onclick="openUrl()">
-          <div id="videoContainer">
-            <video autoplay muted playsinline loop style="width: 100%" id="video" onclick="openUrl()">
-              <source src="./images/32/video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-            </video>
-            <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px;" id="muteButton" />
-          </div>
-        </div>
-        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/32/2.png" alt="" onclick="openUrl()"></div>
-        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/32/3.png" alt="" onclick="openUrl()"></div>
-        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/32/4.png" alt="" onclick="openUrl()"></div>
-        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/32/5.png" alt="" onclick="openUrl()"></div>
-        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/32/6.png" alt="" onclick="openUrl()"></div>
+        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/34/1.png" alt="" onclick="openUrl()"></div>
+        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/34/2.png" alt="" onclick="openUrl()"></div>
+        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/34/3.png" alt="" onclick="openUrl()"></div>
+        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/34/4.png" alt="" onclick="openUrl()"></div>
+        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/34/5.png" alt="" onclick="openUrl()"></div>
+        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/34/6.png" alt="" onclick="openUrl()"></div>
       </div>
     </div>
     <img src="./images/finger.png" alt="" id="finger" />
@@ -110,31 +101,21 @@
 <script>
 const banner = document.getElementById("banner");
 const finger = document.getElementById("finger");
-const video = document.getElementById("video");
-const muteButton = document.getElementById('muteButton');
 var swiper = new Swiper('.swiper-container', {
   loop: true,
   effect: "cards",
   grabCursor: true,
-});
-
-swiper.on('slideChange', (e) => {
-  if (e.activeIndex % 6 === 1) {
-    video.play();
-  } else {
-    video.pause();
-  }
+  speed: 600,
 });
 
 moveFinger()
 
+setInterval(() => {
+  swiper.slideNext();
+}, 4000);
+
 function closeAd() {
   banner.remove();
-}
-
-function muteButtonOnClick() {
-  video.muted = !video.muted;
-  muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
 }
 
 function moveFinger() {
