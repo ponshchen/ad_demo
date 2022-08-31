@@ -30,19 +30,6 @@
 
       .swiper-slide {
         overflow: visible !important;
-        visibility: hidden;
-      }
-
-      .swiper-slide-prev {
-        visibility: initial;
-      }
-
-      .swiper-slide-visible {
-        visibility: initial;
-      }
-
-      .swiper-slide-next {
-        visibility: initial;
       }
 
       .swiper-slide-shadow {
@@ -82,7 +69,8 @@ var swiper = new Swiper('.swiper-container', {
   spaceBetween: 10,
   speed: 800,
   creativeEffect: {
-    limitProgress: 2,
+    limitProgress: 3,
+    shadowPerProgress: true,
     prev: {
       translate: ["-120%", 0, 0],
       rotate: [0, 0, 10],
