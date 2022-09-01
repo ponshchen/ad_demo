@@ -50,6 +50,17 @@
         height: 56.25vw;
         position: relative;
       }
+
+      #finger {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        transition: 0.5s;
+        width: 64px;
+        height: 64px;
+      }
     </style>
 </head>
 <body>
@@ -64,6 +75,7 @@
         <div class="swiper-slide"><img class="swiper-slide-img" src="./images/30/3.jpg" alt="" onclick="openUrl()"></div>
         <div class="swiper-slide"><img class="swiper-slide-img" src="./images/30/4.jpeg" alt="" onclick="openUrl()"></div>
       </div>
+      <img src="./images/finger.png" alt="" id="finger" />
     </div>
     <div id="videoContainer">
       <video autoplay muted playsinline loop style="width: 100%" id="video">
@@ -78,6 +90,7 @@
 <script>
 const video = document.getElementById('video');
 const muteButton = document.getElementById('muteButton');
+const finger = document.getElementById("finger");
 var swiper = new Swiper('.swiper-container', {
   effect: "creative",
   grabCursor: true,
@@ -93,11 +106,12 @@ var swiper = new Swiper('.swiper-container', {
       shadow: true
     },
     next: {
-      translate: ["0%", 0, -500],
-      opacity: 0,
+      translate: ["0%", 0, -500]
     },
   },
 });
+
+moveFinger()
 
 setInterval(() => {
   swiper.slideNext();
@@ -110,6 +124,62 @@ function muteButtonOnClick() {
 
 function openUrl(){
   window.open('https://app.adjust.com/zoo12og_r0d0uti?campaign=dis_bra_mix_eat_ma_foodpanda_tw_july_ob_campaign_202207&adgroup=SigninAD&creative=ADK_Dmart_20s&deeplink=foodpanda%3A%2F%2F%3Fc%3Dtw%26s%3Dl&redirect=https%3A%2F%2Fwww.foodpanda.com.tw%2F%3Futm_source%3DSigninAD%26utm_medium%3Ddisplay%26utm_campaign%3Ddis_bra_mix_eat_ma_foodpanda_tw_july_ob_campaign_202207%26utm_content%3DADK_Dmart_20s');
+}
+
+function moveFinger() {
+  finger.style.left = "45%";
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 1000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 1500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 2000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 2500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 3000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 3500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 4000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 4500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 5000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 5500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 6000)
+
+  setTimeout(() => {
+    finger.style.opacity = "0";
+  }, 6500)
 }
 </script>
 </html>

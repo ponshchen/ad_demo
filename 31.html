@@ -44,6 +44,17 @@
         padding: 5px;
         box-sizing: border-box;
       }
+
+      #finger {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        transition: 0.5s;
+        width: 64px;
+        height: 64px;
+      }
     </style>
 </head>
 <body>
@@ -57,11 +68,13 @@
         <div class="swiper-slide"><img class="swiper-slide-img" src="./images/31/2.jpg" alt="" onclick="openUrl()"></div>
         <div class="swiper-slide"><img class="swiper-slide-img" src="./images/31/3.jpg" alt="" onclick="openUrl()"></div>
       </div>
+      <img src="./images/finger.png" alt="" id="finger" />
     </div>
   </div>
   <img src="./images/background2.png" style="width: 100vw;" />
 </body>
 <script>
+  const finger = document.getElementById("finger");
 var swiper = new Swiper('.swiper-container', {
   effect: "creative",
   grabCursor: true,
@@ -77,11 +90,12 @@ var swiper = new Swiper('.swiper-container', {
       shadow: true
     },
     next: {
-      translate: ["0%", 0, -500],
-      opacity: 0,
+      translate: ["0%", 0, -500]
     },
   },
 });
+
+moveFinger()
 
 setInterval(() => {
   swiper.slideNext();
@@ -89,6 +103,62 @@ setInterval(() => {
 
 function openUrl(){
   window.open('https://www.jandancare.com/products/rose-facial-essence?utm_source=signinad&utm_medium=ads&utm_campaign=0411_rose_gdn');
+}
+
+function moveFinger() {
+  finger.style.left = "45%";
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 1000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 1500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 2000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 2500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 3000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 3500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 4000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 4500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 5000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 5500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 6000)
+
+  setTimeout(() => {
+    finger.style.opacity = "0";
+  }, 6500)
 }
 </script>
 </html>
