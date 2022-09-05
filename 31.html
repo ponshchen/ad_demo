@@ -45,6 +45,12 @@
         box-sizing: border-box;
       }
 
+      @keyframes move {
+        0%   {left: 55%;}
+        50%  {left: 45%;}
+        100% {left: 55%;}
+      }
+
       #finger {
         position: absolute;
         top: 50%;
@@ -54,6 +60,8 @@
         transition: 0.5s;
         width: 64px;
         height: 64px;
+        animation: move 1s linear;
+        animation-iteration-count: infinite;
       }
     </style>
 </head>
@@ -95,70 +103,17 @@ var swiper = new Swiper('.swiper-container', {
   },
 });
 
-moveFinger()
+swiper.on('slideChange', function () {
+  finger.style.opacity = "0";
+});
 
 setInterval(() => {
   swiper.slideNext();
+  finger.style.opacity = "0";
 }, 4000);
 
 function openUrl(){
   window.open('https://www.jandancare.com/products/rose-facial-essence?utm_source=signinad&utm_medium=ads&utm_campaign=0411_rose_gdn');
-}
-
-function moveFinger() {
-  finger.style.left = "45%";
-
-  setTimeout(() => {
-    finger.style.left = "55%";
-  }, 500)
-
-  setTimeout(() => {
-    finger.style.left = "45%";
-  }, 1000)
-
-  setTimeout(() => {
-    finger.style.left = "55%";
-  }, 1500)
-
-  setTimeout(() => {
-    finger.style.left = "45%";
-  }, 2000)
-
-  setTimeout(() => {
-    finger.style.left = "55%";
-  }, 2500)
-
-  setTimeout(() => {
-    finger.style.left = "45%";
-  }, 3000)
-
-  setTimeout(() => {
-    finger.style.left = "55%";
-  }, 3500)
-
-  setTimeout(() => {
-    finger.style.left = "45%";
-  }, 4000)
-
-  setTimeout(() => {
-    finger.style.left = "55%";
-  }, 4500)
-
-  setTimeout(() => {
-    finger.style.left = "45%";
-  }, 5000)
-
-  setTimeout(() => {
-    finger.style.left = "55%";
-  }, 5500)
-
-  setTimeout(() => {
-    finger.style.left = "45%";
-  }, 6000)
-
-  setTimeout(() => {
-    finger.style.opacity = "0";
-  }, 6500)
 }
 </script>
 </html>
