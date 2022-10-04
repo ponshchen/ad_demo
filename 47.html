@@ -1,0 +1,146 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+   <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .banner {
+        width: 100vw;
+        height: 83.33vw;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .swiper-container {
+        width: 80vw;
+        height: 51.43vw;
+      }
+
+      .swiper-slide {
+        width: 80vw;
+        height: 51.43vw;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .swiper-slide-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      #finger {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        transition: 0.5s;
+        width: 64px;
+        height: 64px;
+      }
+
+      #videoContainer {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 24px;
+        height: 24px;
+      }
+    </style>
+</head>
+<body>
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <div class="banner" id="banner">
+    <!-- Swiper -->
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/47/1.jpg" alt="" onclick="openUrl()"></div>
+        <div class="swiper-slide"><img class="swiper-slide-img" src="./images/47/2.png" alt="" onclick="openUrl()"></div>
+      </div>
+    </div>
+    <img src="./images/finger.png" alt="" id="finger" />
+  </div>
+  <img src="./images/background2.png" style="width: 100vw;" />
+</body>
+<script>
+const banner = document.getElementById("banner");
+const finger = document.getElementById("finger");
+var swiper = new Swiper('.swiper-container', {
+  loop: true,
+  effect: "cards",
+  grabCursor: true,
+  speed: 600,
+});
+
+moveFinger()
+
+setInterval(() => {
+  swiper.slideNext();
+}, 4000);
+
+function moveFinger() {
+  finger.style.left = "45%";
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 1000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 1500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 2000)
+
+  setTimeout(() => {
+    finger.style.left = "55%";
+  }, 2500)
+
+  setTimeout(() => {
+    finger.style.left = "45%";
+  }, 3000)
+
+  setTimeout(() => {
+    finger.style.opacity = "0";
+  }, 3500)
+}
+
+function openUrl(){
+  window.open('https://contact.mazda.com.tw/testdrive_arrive/?utm_source=SigninAD&utm_medium=CX-3_Magic&utm_campaign=202210_23MYCX-5CX-3Campaign&utm_content=CX-3');
+}
+</script>
+</html>
