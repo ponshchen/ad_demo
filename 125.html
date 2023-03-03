@@ -18,8 +18,8 @@
       }
 
       .banner {
-        width: 100vw;
-        height: 150vw;
+        width: 300vw;
+        height: 250vw;
         overflow: hidden;
       }
 
@@ -51,18 +51,6 @@
         100% {left: 55%;}
       }
 
-      #finger {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 1;
-        transition: 0.5s;
-        width: 64px;
-        height: 64px;
-        animation: move 1s linear;
-        animation-iteration-count: infinite;
-      }
     </style>
 </head>
 <body>
@@ -74,13 +62,11 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide"><img class="swiper-slide-img" src="./images/125/1.gif" alt="" onclick="openUrl()"></div>
       </div>
-      <img src="./images/finger.png" alt="" id="finger" />
     </div>
   </div>
   <img src="./images/background2.png" style="width: 100vw;" />
 </body>
 <script>
-  const finger = document.getElementById("finger");
 var swiper = new Swiper('.swiper-container', {
   effect: "creative",
   grabCursor: true,
