@@ -112,11 +112,6 @@ swiper.on('touchMove', function () {
   isSwiped = true;
 });
 
-swiper.on('touchEnd', function(s, e) {
-  const endPosition = e.changedTouches[0].pageY;
-  if (endPosition < 0) openUrl()
-});
-
 window.addEventListener("message", (e) => swiperAnimation(e));
 
 setInterval(() => {
