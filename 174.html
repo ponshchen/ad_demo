@@ -1,4 +1,6 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,23 +47,37 @@
     }
 
     @keyframes move {
-      0% {left: 55%;}
-      50% {left: 45%;}
-      100% {left: 55%;}
+      0% {
+        left: 55%;
+      }
+
+      50% {
+        left: 45%;
+      }
+
+      100% {
+        left: 55%;
+      }
     }
   </style>
 </head>
+
 <body>
   <img src="./images/background0.png" style="width: 100vw;" />
   <img src="./images/background1.png" style="width: 100vw;" />
   <div class="banner" id="banner">
-    <!-- Swiper -->
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div class="banner-slide"><img src="./images/174.jpg" alt="" width="320" height="480" onclick="window.open('https://www.example.com/')"></div>
-      </div>
-      <img src="./images/finger.png" alt="" id="finger" />
-    </div>
+    <img class="swiper-slide-img" src="./images/174/1.jpg" alt="" onclick="openUrl()">
+    <img src="./images/finger.png" alt="" id="finger" />
   </div>
   <img src="./images/background2.png" style="width: 100vw;" />
-</
+</body>
+
+<script>
+  const finger = document.getElementById("finger");
+
+  function openUrl() {
+    window.open('https://ad.doubleclick.net/ddm/clk/544618981;353527936;y');
+  }
+</script>
+
+</html>
