@@ -1,88 +1,102 @@
-<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>content-gallery h5 template</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
-    <style>
-      * {
-        margin: 0;
-      }
-
-      body {
-        background-color: transparent;
-      }
-
-      .banner-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ad Banner</title>
+  <style>
+    /* Global reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* Ad container */
+    .ad-container {
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    /* Ad content */
+    .ad-content {
+      position: relative;
+      max-width: 640px;
+      max-height: 960px;
+      width: 90%;
+      height: 80%;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+    }
+    
+    /* Ad image */
+    .ad-image {
+      width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    
+    /* Close button */
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #000;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    /* Close button hover effect */
+    .close-btn:hover {
+      background-color: #000;
+      color: #fff;
+    }
+    
+    /* Media queries */
+    @media screen and (max-width: 640px) {
+      .ad-content {
+        max-width: 100%;
+        max-height: 100%;
         height: 100%;
-        z-index: 9999;
-        overflow: hidden;
       }
-
-      .banner {
-        width: 100vw;
-        height: 150vw;
-        overflow: hidden;
-      }
-
-      .swiper-container {
-        width: 100%;
-        height: 150vw;
-      }
-
-      .swiper-slide {
-        overflow: visible !important;
-      }
-
-      .swiper-slide-shadow {
-        opacity: 1 !important;
-        background: transparent !important;
-        box-shadow: 15px 0px 5px 0px rgba(0, 0, 0, 0.4) !important;
-      }
-
-      .swiper-slide-img {
-        width: 100%;
-        height: 150vw;
-        padding: 5px;
-        box-sizing: border-box;
-      }
-
-      @keyframes move {
-        0% {
-          left: 55%;
-        }
-        50% {
-          left: 45%;
-        }
-        100% {
-          left: 55%;
-        }
-      }
-
-      .close-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: #ccc;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 24px;
-        color: #fff;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <img src="./images/background0.png" style="width: 100vw;" />
+    }
+  </style>
+</head>
+<body>
+  <div class="ad-container">
+    <div class="ad-content">
+      <img class="ad-image" src="https://drive.google.com/uc?id=14BXHsM_dvy9tt5zbpkXbNPpvXDva9A-W" alt="Ad Image">
+      <a class="close-btn">&#10005;</a>
+    </div>
+  </div>
+  
+  <script>
+    const closeBtn = document.querySelector('.close-btn');
+    const adContainer = document.querySelector('.ad-container');
+    
+    closeBtn.addEventListener('click', () => {
+      adContainer.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
