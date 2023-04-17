@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>廣告標題</title>
+	<style>
+		.ad-container {
+			position: relative;
+			margin: 0 auto;
+			width: 100%;
+			max-width: 600px;
+			height: auto;
+			background-color: #FFFFFF;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+			padding: 10px;
+			box-sizing: border-box;
+			overflow: hidden;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			line-height: 1.5;
+			color: #333333;
+			text-align: center;
+			border-radius: 10px;
+			box-sizing: border-box;
+		}
+		.ad-close {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			font-size: 24px;
+			font-weight: bold;
+			color: #BBBBBB;
+			cursor: pointer;
+		}
+		.ad-title {
+			margin: 0 0 10px;
+			font-size: 24px;
+			font-weight: bold;
+			color: #333333;
+		}
+		.ad-image {
+			max-width: 100%;
+			height: auto;
+			margin-bottom: 10px;
+		}
+		.ad-message {
+			margin: 0 0 20px;
+		}
+		.ad-link {
+			display: inline-block;
+			padding: 10px 20px;
+			background-color: #F7931E;
+			color: #FFFFFF;
+			font-weight: bold;
+			border-radius: 25px;
+			text-decoration: none;
+			transition: background-color 0.2s ease;
+		}
+		.ad-link:hover {
+			background-color: #FFA341;
+		}
+	</style>
+</head>
+<body>
+	<div class="ad-container">
+		<div class="ad-close">×</div>
+		<div class="ad-title">廣告標題</div>
+		<img src="https://drive.google.com/uc?id=14BXHsM_dvy9tt5zbpkXbNPpvXDva9A-W" alt="廣告圖片" class="ad-image">
+		<div class="ad-message">這裡是廣告訊息，可以填寫商品介紹、促銷資訊等等。</div>
+		<a href="#" class="ad-link">前往官網</a>
+	</div>
+	<script>
+		const adClose = document.querySelector('.ad-close');
+		const adContainer = document.querySelector('.ad-container');
+		adClose.addEventListener('click', () => {
+			adContainer.style.display = 'none';
+		});
+	</script>
+</body>
+</html>
