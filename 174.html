@@ -8,54 +8,66 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
-   <style>
-      * {
-        margin: 0;
-      }
-       body {
-    background-color: transparent;
-  }
-
-  .banner {
-    width: 100vw;
-    height: 150vw;
-    overflow: hidden;
-  }
-
-  .swiper-container {
-    width: 100%;
-    height: 150vw;
-  }
-
-  .swiper-slide {
-    overflow: visible !important;
-  }
-
-  .swiper-slide-shadow {
-    opacity: 1 !important;
-    background: transparent !important;
-    box-shadow: 15px 0px 5px 0px rgba(0, 0, 0, 0.4) !important;
-  }
-
-  .swiper-slide-img {
-    width: 100%;
-    height: 150vw;
-    padding: 5px;
-    box-sizing: border-box;
-  }
-
-  @keyframes move {
-    0%   {left: 55%;}
-    50%  {left: 45%;}
-    100% {left: 55%;}
-  }
-</style>
+  <style>
+    * {
+      margin: 0;
+    }
+    body {
+      background-color: transparent;
+    }
+    .banner {
+      width: 100vw;
+      height: 150vw;
+      overflow: hidden;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 150vw;
+    }
+    .swiper-slide {
+      overflow: visible !important;
+    }
+    .swiper-slide-shadow {
+      opacity: 1 !important;
+      background: transparent !important;
+      box-shadow: 15px 0px 5px 0px rgba(0, 0, 0, 0.4) !important;
+    }
+    .swiper-slide-img {
+      width: 100%;
+      height: 150vw;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+    .mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 150vw;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .mask img {
+      width: 320px;
+      height: 480px;
+    }
+    @keyframes move {
+      0%   {left: 55%;}
+      50%  {left: 45%;}
+      100% {left: 55%;}
+    }
+  </style>
 </head>
 <body>
   <img src="./images/background0.png" style="width: 100vw;" />
   <img src="./images/background1.png" style="width: 100vw;" />
   <div class="banner" id="banner">
-    <img src="./images/174/1.jpg" style="width: 320px; height: 480px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);" onclick="openUrl()" />
+    <div class="mask" onclick="openUrl()">
+      <img src="./images/174/1.jpg" />
+    </div>
     <button style="position: fixed; top: 30%; right: 10%; width: 40px; height: 40px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.8); border: none; font-size: 30px; color: #000; cursor: pointer;" onclick="closePopUp()">×</button>
   </div>
   <img src="./images/background2.png" style="width: 100vw;" />
@@ -64,9 +76,8 @@
   function openUrl(){
     window.open('https://www.wyethnutrition.com.tw/brands/materna/dha?utm_source=signinad&utm_medium=display&utm_campaign=md_alwayson_zen_traffic_signinaddisplay&utm_content=combination2_pic_cpc');
   }
-function closePopUp(){
-document.querySelector('.banner').remove();
-}
+  function closePopUp(){
+    document.querySelector('.banner').remove();
+  }
 </script>
-
 </html>
