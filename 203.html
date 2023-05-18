@@ -107,7 +107,8 @@ swiper.on('slideChange', function () {
   finger.style.opacity = "0";
 });
 
-setTimeout(() => {
+setInterval(() => {
+  swiper.slideNext();
   finger.style.opacity = "0";
 }, 6000);
 
