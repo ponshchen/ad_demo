@@ -1,0 +1,67 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+   <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 56.25vw;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #img {
+        width: 80vw;
+        height: 51.43vw;
+        object-fit: cover;
+      }
+
+      #close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 24px;
+        height: 24px;
+      }
+    </style>
+</head>
+<body>
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <img src="./images/background2.png" style="width: 100vw;" />
+  <div class="banner" id="banner" onclick="openUrl()">
+    <img src="./images/252/1.jpg" id="img" />
+    <img src="./images/close.png" alt="" id="close" onclick="closeAd()" />
+  </div>
+</body>
+<script>
+const banner = document.getElementById("banner");
+
+function closeAd() {
+  banner.remove();
+}
+
+function openUrl(){
+  window.open('https://2023nta1.event-go.tw/?utm_source=network&utm_medium=cpc&utm_campaign=2023_07_nta1&utm_term=0710_1&utm_content=banner');
+}
+</script>
+</html>
