@@ -1,0 +1,54 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+  <style>
+    * {
+      margin: 0;
+    }
+
+    body {
+      background-color: transparent;
+    }
+  </style>
+</head>
+<body>
+</body>
+<script>
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+  } else {
+    window.alert("Geolocation is not supported by this browser.");
+  }
+
+  function successFunction(position) {
+    window.alert(position);
+  }
+
+  function errorFunction() {
+    window.alert("Unable to retrieve your location.");
+  }
+
+  fetch(
+      "https://maps.googleapis.com/maps/api/geocode/json？latlng=23.48386540,120.45358340&language=zh-TW"
+    )
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (myJson) {
+        console.log(myJson);
+      });
+
+
+  fetch("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-99677EBA-5811-41DC-AEC3-39EA38447E58&locationName=臺北市")
+  .then(function (response) {
+        return response.json();
+      })
+      .then(function (myJson) {
+        console.log(myJson.records.location[0].weatherElement);
+      });
+</script>
+</html>
