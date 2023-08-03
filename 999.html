@@ -26,10 +26,20 @@
   }
 
   function successFunction(position) {
+    const { longitude, latitude } = position.coords
+
+    fetch(`http://maps.google.com/maps/api/geocode/json?latlng=${latitude},${longitude}&language=zh-TW&sensor=true`)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (myJson) {
+        console.log(myJson);
+      });
+
     const newDiv = document.createElement("div");
 
     // and give it some content
-    const newContent = document.createTextNode(JSON.stringify(position));
+    const newContent = document.createTextNode(`經度：${longitude}, 緯度：${latitude}`);
 
     // add the text node to the newly created div
     newDiv.appendChild(newContent);
@@ -42,16 +52,6 @@
   function errorFunction() {
     window.alert("Unable to retrieve your location.");
   }
-
-  fetch(
-      "https://maps.googleapis.com/maps/api/geocode/json？latlng=23.48386540,120.45358340&language=zh-TW"
-    )
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (myJson) {
-        window.alert(JSON.stringify(myJson));
-      });
 
 
   fetch("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-99677EBA-5811-41DC-AEC3-39EA38447E58&locationName=臺北市")
