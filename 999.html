@@ -27,7 +27,8 @@
 
   async function successFunction(position) {
     const { longitude, latitude } = position.coords
-    let cityName = ''
+    let city
+    let town
     let temp
     let humd
 
@@ -42,16 +43,16 @@
           const bDistance = Math.abs(longitude - b.lon) + Math.abs(latitude - b.lat)
           return aDistance > bDistance ? 1 : -1
         })
-        cityName = locations[0].parameter.find((e) => e.parameterName === 'CITY').parameterValue
+        city = locations[0].parameter.find((e) => e.parameterName === 'CITY').parameterValue
+        town = locations[0].parameter.find((e) => e.parameterName === 'TOWN').parameterValue
         temp = locations[0].weatherElement.find((e) => e.elementName === 'TEMP').elementValue
         humd = locations[0].weatherElement.find((e) => e.elementName === 'HUMD').elementValue
-        console.log(locations[0])
       });
 
     const newDiv = document.createElement("div");
 
     // and give it some content
-    const newContent = document.createTextNode(`城市：${cityName}, 經度：${longitude}, 緯度：${latitude}, 溫度：${temp}, 濕度：${humd * 100}%`);
+    const newContent = document.createTextNode(`縣市：${city}, 區：${town}, 經度：${longitude}, 緯度：${latitude}, 溫度：${temp}, 濕度：${humd * 100}%`);
 
     // add the text node to the newly created div
     newDiv.appendChild(newContent);
