@@ -25,21 +25,33 @@
     window.alert("Geolocation is not supported by this browser.");
   }
 
-  function successFunction(position) {
+  async function successFunction(position) {
     const { longitude, latitude } = position.coords
+    let cityName = ''
+    let temp
+    let humd
 
-    fetch(`http://maps.google.com/maps/api/geocode/json?latlng=${latitude},${longitude}&language=zh-TW&sensor=true`)
+    await fetch(`https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0001-001?Authorization=CWB-99677EBA-5811-41DC-AEC3-39EA38447E58&longitude=${longitude}&latitude=${latitude}`)
       .then(function (response) {
         return response.json();
       })
       .then(function (myJson) {
-        console.log(myJson);
+        const locations = [...myJson.records.location]
+        locations.sort((a, b) => {
+          const aDistance = Math.abs(longitude - a.lon) + Math.abs(latitude - a.lat)
+          const bDistance = Math.abs(longitude - b.lon) + Math.abs(latitude - b.lat)
+          return aDistance > bDistance ? 1 : -1
+        })
+        cityName = locations[0].parameter.find((e) => e.parameterName === 'CITY').parameterValue
+        temp = locations[0].weatherElement.find((e) => e.elementName === 'TEMP').elementValue
+        humd = locations[0].weatherElement.find((e) => e.elementName === 'HUMD').elementValue
+        console.log(locations[0])
       });
 
     const newDiv = document.createElement("div");
 
     // and give it some content
-    const newContent = document.createTextNode(`經度：${longitude}, 緯度：${latitude}`);
+    const newContent = document.createTextNode(`城市：${cityName}, 經度：${longitude}, 緯度：${latitude}, 溫度：${temp}, 濕度：${humd * 100}%`);
 
     // add the text node to the newly created div
     newDiv.appendChild(newContent);
@@ -52,14 +64,5 @@
   function errorFunction() {
     window.alert("Unable to retrieve your location.");
   }
-
-
-  fetch("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-99677EBA-5811-41DC-AEC3-39EA38447E58&locationName=臺北市")
-  .then(function (response) {
-        return response.json();
-      })
-      .then(function (myJson) {
-        console.log(myJson.records.location[0].weatherElement);
-      });
 </script>
 </html>
