@@ -57,7 +57,6 @@
 <script>
   const gif1 = document.getElementById("gif1");
   const audio1 = new Audio("./images/331/1.mp3");
-  const audio2 = new Audio("./images/331/2.mp3");
 
   gif1.onclick = function(event) {
     audio1.play();
@@ -78,7 +77,6 @@
       banner.appendChild(gif2);
       gif2.style.opacity = 1;
       gif1.style.opacity = 0;
-      audio2.play();
     }, 3000)
     
     setTimeout(() => {
