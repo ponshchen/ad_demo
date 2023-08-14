@@ -51,7 +51,6 @@
   <img src="./images/background1.png" style="width: 100vw;" />
   <div class="banner" id="banner">
     <img src="./images/331/1.gif" class="gif" id="gif1" />
-    <img src="./images/331/2.gif" class="gif" id="gif2" />
     <audio controls id="mp31">
       <source src="./images/331/1.mp3" type="audio/mpeg">
       Your browser does not support the audio tag.
@@ -64,19 +63,29 @@
   <img src="./images/background2.png" style="width: 100vw;" />
 </body>
 <script>
-  let x = 0;
   const gif1 = document.getElementById("gif1");
-  const gif2 = document.getElementById("gif2");
   const mp31 = document.getElementById("mp31");
   const mp32 = document.getElementById("mp32");
 
   gif1.onclick = function(event) {
-    console.log(event)
     mp31.play()
 
     setTimeout(() => {
-      gif1.style.opacity = 0
-      gif2.style.opacity = 1
+      const gif2 = document.createElement("img");
+      gif2.style.opacity = 0;
+      gif2.style.top = 0;
+      gif2.style.left = 0;
+      gif2.style.width = '100vw';
+      gif2.style.height = '150vw';
+      gif2.style.transition = '1s';
+      gif2.src = "./images/331/2.gif"
+      gif2.onclick = () => {
+        window.open("https://www.cokeplus.tw/sprite-summer-2023/landing")
+      }
+      const banner = document.getElementById("banner");
+      banner.appendChild(gif2);
+      gif2.style.opacity = 1;
+      gif1.style.opacity = 0;
       mp32.play()
     }, 3000)
     
