@@ -1,0 +1,88 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+   <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .banner {
+        width: 100vw;
+        height: 150vw;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .gif {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 150vw;
+        transition: 1s;
+      }
+
+      #gif1 {
+        z-index: 1;
+      }
+
+      #gif2 {
+        opacity: 0;
+      }
+
+      audio {
+        display: none;
+      }
+    </style>
+</head>
+<body>
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <div class="banner" id="banner">
+    <img src="./images/331/1.gif" class="gif" id="gif1" />
+    <img src="./images/331/2.gif" class="gif" id="gif2" />
+    <audio controls id="mp31">
+      <source src="./images/331/1.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    <audio controls id="mp32">
+      <source src="./images/331/2.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+  </div>
+  <img src="./images/background2.png" style="width: 100vw;" />
+</body>
+<script>
+  let x = 0;
+  const gif1 = document.getElementById("gif1");
+  const gif2 = document.getElementById("gif2");
+  const mp31 = document.getElementById("mp31");
+  const mp32 = document.getElementById("mp32");
+
+  gif1.onclick = function(event) {
+    console.log(event)
+    mp31.play()
+
+    setTimeout(() => {
+      gif1.style.opacity = 0
+      gif2.style.opacity = 1
+      mp32.play()
+    }, 3000)
+    
+    setTimeout(() => {
+      gif1.remove()
+    }, 4000);
+  }
+</script>
+</html>
