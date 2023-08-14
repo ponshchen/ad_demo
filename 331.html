@@ -51,24 +51,16 @@
   <img src="./images/background1.png" style="width: 100vw;" />
   <div class="banner" id="banner">
     <img src="./images/331/1.gif" class="gif" id="gif1" />
-    <audio controls id="mp31">
-      <source src="./images/331/1.mp3" type="audio/mpeg">
-      Your browser does not support the audio tag.
-    </audio>
-    <audio controls id="mp32">
-      <source src="./images/331/2.mp3" type="audio/mpeg">
-      Your browser does not support the audio tag.
-    </audio>
   </div>
   <img src="./images/background2.png" style="width: 100vw;" />
 </body>
 <script>
   const gif1 = document.getElementById("gif1");
-  const mp31 = document.getElementById("mp31");
-  const mp32 = document.getElementById("mp32");
+  const audio1 = new Audio("./images/331/1.mp3");
+  const audio2 = new Audio("./images/331/2.mp3");
 
   gif1.onclick = function(event) {
-    mp31.play()
+    audio1.play();
 
     setTimeout(() => {
       const gif2 = document.createElement("img");
@@ -86,7 +78,7 @@
       banner.appendChild(gif2);
       gif2.style.opacity = 1;
       gif1.style.opacity = 0;
-      mp32.play()
+      audio2.play();
     }, 3000)
     
     setTimeout(() => {
