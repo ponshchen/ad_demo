@@ -1,0 +1,87 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+   <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .banner {
+        width: 100vw;
+        height: 150vw;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .gif {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 150vw;
+        transition: 1s;
+      }
+
+      #gif1 {
+        z-index: 1;
+      }
+
+      #gif2 {
+        opacity: 0;
+      }
+
+      audio {
+        display: none;
+      }
+    </style>
+</head>
+<body>
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <div class="banner" id="banner">
+    <img src="./images/342/1.gif" class="gif" id="gif1" />
+  </div>
+  <img src="./images/background2.png" style="width: 100vw;" />
+</body>
+<script>
+  const gif1 = document.getElementById("gif1");
+  const audio1 = new Audio("./images/342/1.mp3");
+
+  gif1.onclick = function(event) {
+    audio1.play();
+
+    setTimeout(() => {
+      const gif2 = document.createElement("img");
+      gif2.style.opacity = 0;
+      gif2.style.top = 0;
+      gif2.style.left = 0;
+      gif2.style.width = '100vw';
+      gif2.style.height = '150vw';
+      gif2.style.transition = '1s';
+      gif2.src = "./images/342/2.gif"
+      gif2.onclick = () => {
+        window.open("https://www.cokeplus.tw/sprite-summer-2023/landing")
+      }
+      const banner = document.getElementById("banner");
+      banner.appendChild(gif2);
+      gif2.style.opacity = 1;
+      gif1.style.opacity = 0;
+    }, 3000)
+    
+    setTimeout(() => {
+      gif1.remove()
+    }, 4000);
+  }
+</script>
+</html>
