@@ -1,1 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+  <style>
+    * {
+      margin: 0;
+    }
+
+    body {
+      background-color: transparent;
+    }
+
+    .banner {
+      width: 100vw;
+      height: 150vw;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gif {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 150vw;
+      transition: 1s;
+    }
+
+    #gif1 {
+      z-index: 1;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <div class="banner" id="banner">
+    <img src="./images/331/1.gif" class="gif" id="gif1" />
+  </div>
+  <img src="./images/background2.png" style="width: 100vw;" />
+  <audio id="audio1" src="./images/331/1.mp3"></audio>
+</body>
+
+<script>
+  const gif1 = document.getElementById("gif1");
+  const audio1 = document.getElementById("audio1");
+
+  gif1.onclick = function(event) {
+    audio1.play();
+
+    setTimeout(() => {
+      const gif2 = document.createElement("img");
+      gif2.className = "gif"; // Using class for common styles
+      gif2.style.opacity = 0;
+      gif2.src = "./images/331/2.gif";
+      gif2.onclick = () => {
+        window.open("https://www.cokeplus.tw/sprite-summer-2023/landing");
+      };
+
+      const banner = document.getElementById("banner");
+      banner.appendChild(gif2);
+
+      setTimeout(() => {
+        gif2.style.opacity = 1;
+        gif1.style.opacity = 0;
+      }, 50);
+
+    }, 3000);
+
+    setTimeout(() => {
+      gif1.remove();
+    }, 4000);
+  }
+</script>
+</html>
