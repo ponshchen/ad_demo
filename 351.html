@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .backgroundImg {
+      width: 100%;
+    }
+
+    #ad-container {
+      padding: 24px 20%;
+    }
+
+    #ad {
+      width: 100%;
+      background: black;
+      aspect-ratio: 970/250;
+      display: flex;
+    }
+
+    #videoContainer {
+      flex: 1;
+      height: 100%;
+      position: relative;
+    }
+
+    #video {
+      width: 100%;
+      height: 100%;
+    }
+
+    #image {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <img class="backgroundImg" src="./images/pc1.jpg" />
+  <div id="ad-container">
+    <div id="ad">
+      <img src="./images/351/1.jpg" onclick="openUrl()" />
+      <div id="videoContainer">
+        <video loop muted playsinline autoplay id="video" onclick="openUrl()">
+          <source src="./images/351/2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px; z-index: 99;" id="muteButton" />
+      </div>
+    </div>
+  </div>
+  <img class="backgroundImg" src="./images/pc2.jpg" />
+</body>
+</html>
+<script>
+  const video = document.getElementById('video');
+  const muteButton = document.getElementById('muteButton');
+
+  window.addEventListener('scroll', checkVideo);
+
+  function checkVideo() {
+    const videoY = video.getClientRects()[0].y
+    if (videoY < -(video.clientHeight / 2) || videoY > window.screen.height - (video.clientHeight / 2)) {
+      video.pause()
+    } else {
+      video.play()
+    }
+  }
+
+  function openUrl() {
+    window.open('https://www.facebook.com/Movie2023afterschool/');
+  }
+
+  function muteButtonOnClick() {
+    video.muted = !video.muted;
+    muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
+  }
+</script>
