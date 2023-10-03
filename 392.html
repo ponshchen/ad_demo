@@ -1,114 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transformer</title>
-  <style>
-    #adContainer {
-      width: 100vw;
-      height: 46.875vw;
-      position: relative;
-      transition: 0.5s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformer</title>
+    <style>
+        #adContainer {
+            width: 100vw;
+            height: 46.875vw;
+            position: relative;
+            transition: 0.5s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
 
-    #image1 {
-      position: absolute;
-      top: 0;
-      width: 100%;
-    }
+        #image1 {
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
 
-    #image2 {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      left: 100%;
-    }
+        #image2 {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left: 100%;
+        }
 
-    #videoContainer {
-      position: relative;
-      display: flex;
-    }
+        #videoContainer {
+            position: relative;
+        }
 
-    #video {
-      width: 100%;
-    }
-  </style>
+        #video {
+            width: 100%;
+        }
+
+        #gif {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+    </style>
 </head>
+
 <body style="margin: 0;">
-  <img src="./images/background0.png" style="width: 100vw;" />
-  <img src="./images/background1.png" style="width: 100vw;" />
-  <div style="width: 100%; position: relative;">
-    <div id="adContainer">
-      <div id="videoContainer">
-        <video loop muted playsinline id="video" onclick="openUrl()">
-          <source src="./images/336/video.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px; z-index: 99;" id="muteButton" />
-      </div>
-      <img src="./images/336/U.jpg" id="image1" onclick="openUrl()" />
-      <img src="./images/336/D.jpg" id="image2" onclick="openUrl()" />
+    <img src="./images/background0.png" style="width: 100vw;" />
+    <img src="./images/background1.png" style="width: 100vw;" />
+    <div style="width: 100%; position: relative;">
+        <div id="adContainer">
+            <div id="videoContainer">
+                <video loop muted playsinline id="video" onclick="openUrl()">
+                    <source src="./images/392/video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <img onclick="muteButtonOnClick()" src="./images/mute.png"
+                    style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px; z-index: 99;"
+                    id="muteButton" />
+            </div>
+            <img src="./images/392/up.png" id="image1" onclick="openUrl()" />
+            <img src="./images/392/down.png" id="image2" onclick="openUrl()" />
+            <img src="" id="gif" onclick="openUrl()" />
+        </div>
     </div>
-  </div>
-  <img src="./images/background2.png" style="width: 100vw;" />
+    <img src="./images/background2.png" style="width: 100vw;" />
 </body>
+
 </html>
+
 <script>
-  const container = document.getElementById('adContainer');
-  const image2 = document.getElementById('image2');
-  const video = document.getElementById('video');
-  const muteButton = document.getElementById('muteButton');
-  let isBelow = undefined
+    const container = document.getElementById('adContainer');
+    const image2 = document.getElementById('image2');
+    const video = document.getElementById('video');
+    const muteButton = document.getElementById('muteButton');
+    let isBelow = undefined
 
-  window.addEventListener('scroll', scrollListener);
+    window.addEventListener('scroll', scrollListener);
 
-  function scrollListener(event) {
-    if (isBelow === undefined) {
-      isBelow = container.getClientRects()[0].y > window.screen.height / 2
+    function scrollListener(event) {
+        if (isBelow === undefined) {
+            isBelow = container.getClientRects()[0].y > window.screen.height / 2
+        }
+        const windowH = window.screen.height
+        const containerH = container.clientHeight
+        const start = isBelow ? windowH - containerH : 0
+        const end = (windowH - containerH) / 2
+        const current = container.getClientRects()[0].y
+        if (isBelow) {
+            if (current > end) {
+                image2.style.left = `${(current - end) / (start - end) * 100}%`
+                return
+            }
+        } else {
+            if (current < end) {
+                image2.style.left = `${(end - current) / (end - start) * 100}%`
+                return
+            }
+        }
+        window.removeEventListener('scroll', scrollListener)
+        adContainer.style.height = 'calc(150vw - 1px)'
+        image2.style.left = '0'
+        const gif = document.getElementById('gif');
+        gif.style.display = 'block'
+        gif.src = './images/392/1.gif' // Assuming a gif named "1.gif" is there in "392" folder
+        window.addEventListener('scroll', checkVideo);
     }
-    const windowH = window.screen.height
-    const containerH = container.clientHeight
-    const start = isBelow ? windowH - containerH : 0
-    const end = (windowH - containerH) / 2
-    const current = container.getClientRects()[0].y
-    if (isBelow) {
-      if (current > end) {
-        image2.style.left = `${(current - end) / (start - end) * 100}%`
-        return
-      }
-    } else {
-      if (current < end) {
-        image2.style.left = `${(end - current) / (end - start) * 100}%`
-        return
-      }
+
+    function checkVideo() {
+        const videoY = video.getClientRects()[0].y
+        if (videoY < -(video.clientHeight / 2) || videoY > window.screen.height - (video.clientHeight / 2)) {
+            video.pause()
+        } else {
+            video.play()
+        }
     }
-    window.removeEventListener('scroll', scrollListener)
-    adContainer.style.height = 'calc(150vw - 1px)'
-    image2.style.left = '0'
-    window.addEventListener('scroll', checkVideo);
-  }
 
-  function checkVideo() {
-    const videoY = video.getClientRects()[0].y
-    if (videoY < -(video.clientHeight / 2) || videoY > window.screen.height - (video.clientHeight / 2)) {
-      video.pause()
-    } else {
-      video.play()
+    function openUrl() {
+        window.open('https://user238044.pse.is/59k62a');
     }
-  }
 
-  function openUrl() {
-    window.open('https://shop.asus.com/tw/asus-zenbook-s-13-oled-ux5304.html');
-  }
-
-  function muteButtonOnClick() {
-    video.muted = !video.muted;
-    muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
-  }
+    function muteButtonOnClick() {
+        video.muted = !video.muted;
+        muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
+    }
 </script>
