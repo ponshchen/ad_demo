@@ -120,6 +120,11 @@
                     return;
                 }
             }
+
+            function muteButtonOnClick() {
+            video.muted = !video.muted;
+            muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
+        }
             window.removeEventListener('scroll', scrollListener);
             adContainer.style.height = 'calc(150vw - 1px)';
             image2.style.left = '0';
@@ -139,11 +144,6 @@
 
         function openUrl() {
             window.open('https://user238044.pse.is/59k62a');
-        }
-
-        function muteButtonOnClick() {
-            video.muted = !video.muted;
-            muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
         }
     </script>
 </body>
