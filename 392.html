@@ -47,6 +47,18 @@
             transform: translate(-50%, -50%);
             display: none;
         }
+
+        .fade-out {
+            animation-name: fadeOut;
+            animation-duration: 0.5s;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
@@ -66,7 +78,7 @@
             </div>
             <img src="./images/392/up.png" id="image1" onclick="openUrl()" />
             <img src="./images/392/down.png" id="image2" onclick="openUrl()" />
-            <img src="" id="gif" onclick="openUrl()" />
+            <img src="" id="gif" onclick="openUrl()" onended="onGifEnded()" />
         </div>
     </div>
     <img src="./images/background2.png" style="width: 100vw;" />
@@ -79,9 +91,19 @@
     const image2 = document.getElementById('image2');
     const video = document.getElementById('video');
     const muteButton = document.getElementById('muteButton');
+    const gif = document.getElementById('gif'); // 將這個移到上面，因為下面會多次使用
     let isBelow = undefined
 
     window.addEventListener('scroll', scrollListener);
+
+    gif.addEventListener('ended', onGifEnded);
+
+    function onGifEnded() {
+        gif.classList.add('fade-out');
+        setTimeout(() => {
+            gif.style.display = 'none';
+        }, 500);
+    }
 
     function scrollListener(event) {
         if (isBelow === undefined) {
@@ -99,34 +121,4 @@
             }
         } else {
             if (current < end) {
-                image2.style.left = `${(end - current) / (end - start) * 100}%`
-                return
-            }
-        }
-        window.removeEventListener('scroll', scrollListener)
-        adContainer.style.height = 'calc(150vw - 1px)'
-        image2.style.left = '0'
-        const gif = document.getElementById('gif');
-        gif.style.display = 'block'
-        gif.src = './images/392/1.gif' // Assuming a gif named "1.gif" is there in "392" folder
-        window.addEventListener('scroll', checkVideo);
-    }
-
-    function checkVideo() {
-        const videoY = video.getClientRects()[0].y
-        if (videoY < -(video.clientHeight / 2) || videoY > window.screen.height - (video.clientHeight / 2)) {
-            video.pause()
-        } else {
-            video.play()
-        }
-    }
-
-    function openUrl() {
-        window.open('https://user238044.pse.is/59k62a');
-    }
-
-    function muteButtonOnClick() {
-        video.muted = !video.muted;
-        muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
-    }
-</script>
+                image2.style
