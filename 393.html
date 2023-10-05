@@ -32,6 +32,7 @@
 
     #videoContainer {
       position: relative;
+      display: flex;
     }
 
     #video {
@@ -59,7 +60,7 @@
           <source src="./images/393/video.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
-        <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px; z-index: 99;" id="muteButton" />
+        <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 38px; right: 10px; height: 24px; width: 24px; z-index: 99; opacity: 0;" id="muteButton" />
       </div>
       <img src="./images/393/up.png" id="image1" onclick="openUrl()" />
       <img src="./images/393/down.png" id="image2" onclick="openUrl()" />
@@ -110,6 +111,7 @@
         gif.style.opacity = 0
         setTimeout(() => {
           gif.style.display = 'none'
+          muteButton.style.opacity = '1'
         }, 500)
       }, 5500);
     }, 300) // 開啟的延遲時間
