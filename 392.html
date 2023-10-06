@@ -68,62 +68,61 @@
     </div>
   </div>
   <img src="./images/background2.png" style="width: 100vw;" />
-</body>
-</html>
 <script>
   const container = document.getElementById('adContainer');
   const image2 = document.getElementById('image2');
   const video = document.getElementById('video');
   const muteButton = document.getElementById('muteButton');
-  let isBelow = undefined
+  let isBelow = undefined;
 
   window.addEventListener('scroll', scrollListener);
 
   function scrollListener(event) {
     if (isBelow === undefined) {
-      isBelow = container.getClientRects()[0].y > window.screen.height / 2
+      isBelow = container.getClientRects()[0].y > window.screen.height / 2;
     }
-    const windowH = window.screen.height
-    const containerH = container.clientHeight
-    const start = isBelow ? windowH - containerH : 0
-    const end = (windowH - containerH) / 2
-    const current = container.getClientRects()[0].y
+    const windowH = window.screen.height;
+    const containerH = container.clientHeight;
+    const start = isBelow ? windowH - containerH : 0;
+    const end = (windowH - containerH) / 2;
+    const current = container.getClientRects()[0].y;
     if (isBelow) {
       if (current > end) {
-        image2.style.left = `${(current - end) / (start - end) * 100}%`
-        return
+        image2.style.left = `${(current - end) / (start - end) * 100}%`;
+        return;
       }
     } else {
       if (current < end) {
-        image2.style.left = `${(end - current) / (end - start) * 100}%`
-        return
+        image2.style.left = `${(end - current) / (end - start) * 100}%`;
+        return;
       }
     }
-    window.removeEventListener('scroll', scrollListener)
-    adContainer.style.height = 'calc(150vw - 1px)'
-    image2.style.left = '0'
+    window.removeEventListener('scroll', scrollListener);
+    adContainer.style.height = 'calc(150vw - 1px)';
+    image2.style.left = '0';
     setTimeout(() => {
       const gif = document.getElementById('gif');
-      gif.style.display = 'block'
-      gif.src = './images/392/1.gif'
-      gif.style.zIndex = '100'
+      gif.style.display = 'block';
+      gif.src = './images/392/1.gif';
+      gif.style.zIndex = '100';
       setTimeout(() => {
-        gif.style.opacity = 0
+        gif.style.opacity = 0;
         setTimeout(() => {
-          gif.style.display = 'none'
-          muteButton.style.opacity = '1'
-        }, 500)
+          gif.style.display = 'none';
+          muteButton.style.opacity = '1';
+          video.play();  // Play the video only after the GIF is hidden
+        }, 500);
       }, 5500);
-    }, 300) // 開啟的延遲時間
+    }, 100); // 開啟的延遲時間
     window.addEventListener('scroll', checkVideo);
   }
 
   function checkVideo() {
-    const videoY = video.getClientRects()[0].y
+    const videoY = video.getClientRects()[0].y;
     if (videoY < -(video.clientHeight / 2) || videoY > window.screen.height - (video.clientHeight / 2)) {
-      video.pause()
+      video.pause();
     } else {
-      video.play()
+      video.play();
     }
   }
 
@@ -136,3 +135,5 @@
     muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
   }
 </script>
+</body>
+</html>
