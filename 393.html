@@ -111,11 +111,12 @@
         gif.style.opacity = 0
         setTimeout(() => {
           gif.style.display = 'none'
+          window.addEventListener('scroll', checkVideo);
+          video.play()
           muteButton.style.opacity = '1'
         }, 500)
       }, 5500);
     }, 0) // 開啟的延遲時間
-    window.addEventListener('scroll', checkVideo);
   }
 
   function checkVideo() {
