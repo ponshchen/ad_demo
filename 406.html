@@ -112,6 +112,7 @@
         setTimeout(() => {
           gif.style.display = 'none'
           window.addEventListener('scroll', checkVideo);
+          video.play() // Start playing the video
           muteButton.style.opacity = '1'
         }, 500)
       }, 5500);
