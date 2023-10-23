@@ -56,11 +56,11 @@
   <div style="width: 100%; position: relative;">
     <div id="adContainer">
       <div id="videoContainer">
-        <video preload loop muted playsinline id="video" onclick="openUrl()">
+        <video loop muted playsinline id="video" onclick="openUrl()">
           <source src="./images/413/video.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
-        <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 38px; right: 10px; height: 24px; width: 24px; z-index: 99; opacity: 0;" id="muteButton" />
+        <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 10px; right: 10px; height: 24px; width: 24px; z-index: 99; opacity: 0;" id="muteButton" />
       </div>
       <img src="./images/413/up.png" id="image1" onclick="openUrl()" />
       <img src="./images/413/down.png" id="image2" onclick="openUrl()" />
@@ -78,6 +78,13 @@
   let isBelow = undefined
 
   window.addEventListener('scroll', scrollListener);
+
+  video.ontimeupdate = function() {
+    if (video.currentTime > 0) {
+      video.pause()
+      video.ontimeupdate = undefined
+    }
+  };
 
   function scrollListener(event) {
     if (isBelow === undefined) {
@@ -100,6 +107,7 @@
       }
     }
     window.removeEventListener('scroll', scrollListener)
+    video.play()
     adContainer.style.height = 'calc(150vw - 1px)'
     image2.style.left = '0'
     setTimeout(() => {
