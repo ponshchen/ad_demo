@@ -58,7 +58,7 @@
       Your browser does not support the video tag.
       </video>
       <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px;" id="muteButton" />
-      <img onclick="closeAd()" src="./images/close.png" style="position: absolute; top: 10px; right: 10px; height: 24px; width: 24px;" id="closeButton" />
+      <img onclick="closeAd()" src="./images/close.png" style="position: absolute; top: 10px; right: 10px; height: 24px; width: 24px; display: none;" id="closeButton" />
     </div>
     <img class="ad-img" src="./images/416/2.jpg" alt="" onclick="openUrl()">
   </div>
@@ -67,6 +67,11 @@
 const ad = document.getElementById('ad');
 const video = document.getElementById('video');
 const muteButton = document.getElementById('muteButton');
+const closeButton = document.getElementById('closeButton');
+
+setTimeout(() => {
+  closeButton.style.display = 'block'
+}, 2000)
 
 function closeAd() {
   ad.remove()
