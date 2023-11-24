@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transformer</title>
+  <style>
+    #adContainer {
+      width: 100vw;
+      height: calc(150vw - 1px);
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #image1 {
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    #image2 {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      left: 0;
+    }
+
+    #videoContainer {
+      position: relative;
+      display: flex;
+    }
+
+    #video {
+      width: 100%;
+    }
+  </style>
+</head>
+<body style="margin: 0;">
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <div style="width: 100%; position: relative;">
+    <div id="adContainer">
+      <div id="videoContainer">
+        <video aut loop muted playsinline id="video" onclick="openUrl()">
+          <source src="./images/444/video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px; z-index: 99;" id="muteButton" />
+      </div>
+      <img src="./images/444/up.jpg" id="image1" onclick="openUrl()" />
+      <img src="./images/444/down.jpg" id="image2" onclick="openUrl()" />
+    </div>
+  </div>
+  <img src="./images/background2.png" style="width: 100vw;" />
+</body>
+</html>
+<script>
+  const video = document.getElementById('video');
+  const muteButton = document.getElementById('muteButton');
+
+  window.addEventListener('scroll', checkVideo);
+
+  function checkVideo() {
+    const videoY = video.getClientRects()[0].y
+    if (videoY < -(video.clientHeight / 2) || videoY > window.screen.height - (video.clientHeight / 2)) {
+      video.pause()
+    } else {
+      video.play()
+    }
+  }
+
+  function openUrl() {
+    window.open('https://www.facebook.com/KingofTeaTW/posts/pfbid09qfDRk7cEXV2nnVVGNDAPi2WN33ed1xojeLY3MHdsCqEoFrsGz2KmWMgqyLsDK1rl');
+  }
+
+  function muteButtonOnClick() {
+    video.muted = !video.muted;
+    muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
+  }
+</script>
