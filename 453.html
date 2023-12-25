@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .backgroundImg {
+      width: 100%;
+    }
+
+    #ad-container {
+      padding: 24px 20%;
+    }
+
+    #ad {
+      width: 100%;
+      background: black;
+      aspect-ratio: 970/250;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #videoContainer {
+      flex: 1;
+      height: 100%;
+      position: relative;
+    }
+
+    #video {
+      width: 100%;
+      height: 100%;
+    }
+
+    #image {
+      flex: 1;
+    }
+
+    #gif {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      transition: 0.5s;
+    }
+  </style>
+</head>
+<body>
+  <img class="backgroundImg" src="./images/pc1.jpg" />
+  <div id="ad-container">
+    <div id="ad">
+      <img src="./images/453/526x250.png" onclick="openUrl()" />
+      <div id="videoContainer">
+        <video loop muted playsinline autoplay id="video" onclick="openUrl()">
+          <source src="./images/453/video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px; z-index: 99;" id="muteButton" />
+      </div>
+      <img src="" id="gif" onclick="openUrl()" />
+    </div>
+  </div>
+  <img class="backgroundImg" src="./images/pc2.jpg" />
+</body>
+</html>
+<script>
+  const video = document.getElementById('video');
+  const muteButton = document.getElementById('muteButton');
+
+  window.addEventListener('scroll', checkVideo);
+
+  video.ontimeupdate = function() {
+    if (video.currentTime > 0) {
+      video.pause()
+      video.ontimeupdate = undefined
+    }
+  };
+
+  setTimeout(() => {
+    const gif = document.getElementById('gif');
+    gif.style.display = 'block'
+    gif.src = './images/433/1.gif'
+    gif.style.zIndex = '100'
+    setTimeout(() => {
+      gif.style.opacity = 0
+      setTimeout(() => {
+        gif.style.display = 'none'
+        window.addEventListener('scroll', checkVideo);
+        video.play()
+        muteButton.style.opacity = '1'
+      }, 0)
+    // gif 播放時間
+    }, 500);
+  }, 0) // 開啟的延遲時間
+
+  function checkVideo() {
+    const videoY = video.getClientRects()[0].y
+    if (videoY < -(video.clientHeight / 2) || videoY > window.screen.height - (video.clientHeight / 2)) {
+      video.pause()
+    } else {
+      video.play()
+    }
+  }
+
+  function openUrl() {
+    window.open('https://www.pecos.com.tw/brands-%E6%96%B0%E6%84%9F%E8%A6%BA.html');
+  }
+
+  function muteButtonOnClick() {
+    video.muted = !video.muted;
+    muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
+  }
+</script>
