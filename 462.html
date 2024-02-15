@@ -1,0 +1,65 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/plugins/PixiPlugin.min.js"></script>
+   <style>
+      * {
+        margin: 0;
+      }
+
+      #ad-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      #img-wrapper {
+        width: 300px;
+        position: relative;
+      }
+
+      #video {
+        width: 100%;
+      }
+    </style>
+</head>
+<body>
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <div id="ad-wrapper">
+    <div id="img-wrapper">
+      <video style="width: 100%;" autoplay loop muted playsinline id="video" onclick="openUrl()">
+        <source src="./images/462/video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <img onclick="muteButtonOnClick()" src="./images/mute.png" style="position: absolute; bottom: 16px; right: 10px; height: 24px; width: 24px;" id="muteButton" />
+    </div>
+  </div>
+  <img src="./images/background2.png" style="width: 100vw;" />
+</body>
+<script>
+  const video = document.getElementById('video');
+
+  function muteButtonOnClick() {
+    video.muted = !video.muted;
+    muteButton.src = `./images/${video.muted ? 'mute' : 'volume'}.png`;
+  }
+
+  function playVideo() {
+    video.play();
+  }
+
+  function pauseVideo() {
+    video.pause();
+  }
+
+  function openUrl() {
+    window.open('https://ad.doubleclick.net/ddm/trackclk/N49701.4719235SIGNINAD/B31354930.387646934;dc_trk_aid=579079426;dc_trk_cid=209808887;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1');
+  }
+</script>
+</html>
