@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -5,78 +6,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>content-gallery h5 template</title>
   <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
 
-        #ad-wrapper {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            overflow: hidden;
-        }
+      body, html {
+          width: 100%;
+          overflow-x: hidden;
+      }
 
-        #video-wrapper {
-            width: 100%;
-            cursor: pointer;
-            background: #000; /* For better visibility if video doesn't cover */
-        }
+      #ad-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
 
-        #video {
-            width: 100%;
-            height: auto; /* Adjust height to maintain aspect ratio */
-            object-fit: cover; /* Cover the entire area without losing aspect ratio */
-        }
+      #video-wrapper {
+        width: 100%;
+        cursor: pointer;
+        overflow: hidden;
+      }
 
-        #banner {
-            width: 100%;
-            cursor: pointer;
-            position: relative; /* No longer absolutely positioned, flows in document */
-        }
+      #video {
+        width: 100%;
+        height: auto; /* Adjust height to maintain aspect ratio */
+        object-fit: cover;
+      }
 
-        #banner img {
-            width: 100%;
-            height: auto;
-            object-fit: cover; /* Ensure it covers the width */
-        }
-    </style>
+      #banner {
+        width: 100%;
+        cursor: pointer;
+        position: relative;
+      }
+
+      #image2-wrapper img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+  </style>
 </head>
 <body>
-  <img src="./images/background0.png" style="width: 100vw;" />
-  <img src="./images/background1.png" style="width: 100vw;" />
   <div id="ad-wrapper">
-    <div id="video-wrapper" onclick="playVideo()">
-      <video loop muted playsinline id="video">
+    <div id="video-wrapper">
+      <video id="video" loop muted playsinline>
         <source src="./images/461/video.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>
     <div id="banner">
-      <img src="./images/461/1.jpg"/>
+      <img src="./images/461/1.jpg" alt="Banner Image">
     </div>
   </div>
-  <img src="./images/background2.png" style="width: 100vw;" />
 
   <script>
-    const video = document.getElementById('video');
+    document.addEventListener('DOMContentLoaded', () => {
+      const video = document.getElementById('video');
 
-    function playVideo() {
-      video.play();
-    }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.5 });
 
-    function pauseVideo() {
-      video.pause();
-    }
-
-    function muteButtonOnClick() {
-      video.muted = !video.muted;
-    }
-
-    function openUrl() {
-      window.open('https://ad.doubleclick.net/ddm/trackclk/N49701.4719235SIGNINAD/B31354930.387646934;dc_trk_aid=579079426;dc_trk_cid=209808887;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1');
-    }
+      observer.observe(video);
+    });
   </script>
 </body>
 </html>
