@@ -1,11 +1,10 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>content-gallery h5 template</title>
-    <style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+  <style>
         * {
             margin: 0;
             padding: 0;
@@ -45,32 +44,39 @@
     </style>
 </head>
 <body>
-    <div id="ad-wrapper">
-        <div id="video-wrapper" onclick="playVideo()">
-            <video loop muted playsinline id="video">
-                <source src="./images/461/video.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div id="banner" onclick="openUrl()">
-            <img src="./images/461/1.jpg" alt="Banner Image">
-        </div>
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <div id="ad-wrapper">
+    <div id="video-wrapper" onclick="playVideo()">
+      <video loop muted playsinline id="video">
+        <source src="./images/461/video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
+    <div id="banner">
+      <img src="./images/461/1.jpg"/>
+    </div>
+  </div>
+  <img src="./images/background2.png" style="width: 100vw;" />
 
-    <script>
-        const video = document.getElementById('video');
+  <script>
+    const video = document.getElementById('video');
 
-        function playVideo() {
-            if (video.paused) {
-                video.play();
-            } else {
-                video.pause();
-            }
-        }
+    function playVideo() {
+      video.play();
+    }
 
-        function openUrl() {
-            window.open('https://ad.doubleclick.net/ddm/trackclk/N49701.4719235SIGNINAD/B31354930.387646934;dc_trk_aid=579079426;dc_trk_cid=209808887;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1n');
-        }
-    </script>
+    function pauseVideo() {
+      video.pause();
+    }
+
+    function muteButtonOnClick() {
+      video.muted = !video.muted;
+    }
+
+    function openUrl() {
+      window.open('https://ad.doubleclick.net/ddm/trackclk/N49701.4719235SIGNINAD/B31354930.387646934;dc_trk_aid=579079426;dc_trk_cid=209808887;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1');
+    }
+  </script>
 </body>
 </html>
