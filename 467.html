@@ -19,11 +19,11 @@
 
       #item {
         position: absolute;
-        width: 320px;
+        width: 100%;
       }
 
       #end {
-        width: 320px;
+        width: 100%;
         display: none;
       }
 
@@ -35,8 +35,9 @@
 
       #finger {
         position: absolute;
-        right: 18px;
-        bottom: 18px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
         width: 56px;
         height: 56px;
         animation: flash 1s linear;
@@ -47,15 +48,17 @@
 <body>
   <img src="./images/background0.png" style="width: 100vw;" />
   <img src="./images/background1.png" style="width: 100vw;" />
-  <div id="ad-wrapper">
+  <div id="ad-wrapper" onclick="playMusic()">
     <img src="./images/467/item.gif" alt="" id="item" />
-    <canvas id="cover" width="320" height="480"></canvas>
+    <canvas id="cover"></canvas>
     <img src="./images/467/end.gif" alt="" onclick="openUrl()" id="end"/>
-    <img src="./images/467/finger.png" alt="" id="finger" onclick="playMusic()" />
+    <img src="./images/467/finger.png" alt="" id="finger" />
   </div>
   <img src="./images/background2.png" style="width: 100vw;" />
 </body>
 <script>
+  const width = window.innerWidth
+  const height = width * 480 / 320
   let mousedown = false
   let hasDone = false
   const finger = document.getElementById("finger")
@@ -84,15 +87,20 @@
   }
 
   function initial() {
+    cover.width = width
+    cover.height = height
     const image = new Image()
     image.src = "./images/467/cover.png"
     image.crossOrigin = 'Anonymous'
     image.addEventListener('load', () => {
-      coverCtx.drawImage(image, 0, 0, 320, 480);
+      coverCtx.drawImage(image, 0, 0, width, height);
       coverCtx.globalCompositeOperation = 'destination-out';
       cover.style.background = "url(./images/467/background.png)"
       cover.style.backgroundSize = "cover"
     });
+    setTimeout(() => {
+      finger.remove()
+    }, 3000);
   }
 
   function eventDown(ev){
@@ -117,15 +125,15 @@
         coverCtx.arc(x, y, 30, 0, Math.PI * 2);
         coverCtx.fill();
         
-        item.style.left = `${x - 280}px`
-        item.style.top = `${y - 440}px`
+        item.style.left = `${x - width + (width * 0.125)}px`
+        item.style.top = `${y - height + (height * 0.125)}px`
 
         handleFilledPercentage(getFilledPercentage());
     }
   }
 
   function getFilledPercentage() {
-    let imgData = coverCtx.getImageData(0, 0, 320, 480);
+    let imgData = coverCtx.getImageData(0, 0, width, height);
     // imgData.data是个数组，存储着指定区域每个像素点的信息，数组中4个元素表示一个像素点的rgba值
     let pixels = imgData.data;
     let transPixels = [];
@@ -143,7 +151,7 @@
     percentage = percentage || 0;
     if (parseInt(percentage) > 50) {
         // 当像素点的个数超过  50% 时，清空画布，显示底图
-        coverCtx.clearRect(0, 0, 320, 480);
+        coverCtx.clearRect(0, 0, width, height);
         hasDone = true;
         item.remove();
         cover.remove();
