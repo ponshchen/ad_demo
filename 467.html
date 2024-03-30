@@ -48,15 +48,17 @@
     </style>
 </head>
 <body>
-  <img src="./images/background0.png" style="width: 100vw;" />
-  <img src="./images/background1.png" style="width: 100vw;" />
-  <div id="ad-wrapper" onclick="playMusic()">
-    <img src="./images/467/item.gif" alt="" id="item" />
-    <canvas id="cover"></canvas>
-    <img src="./images/467/end.gif" alt="" onclick="openUrl()" id="end"/>
-    <img src="./images/467/finger.png" alt="" id="finger" />
+  <div id="container" style="display: none">
+    <img src="./images/background0.png" style="width: 100vw;" />
+    <img src="./images/background1.png" style="width: 100vw;" />
+    <div id="ad-wrapper" onclick="playMusic()">
+      <img src="./images/467/item.gif" alt="" id="item" />
+      <canvas id="cover"></canvas>
+      <img src="./images/467/end.gif" alt="" onclick="openUrl()" id="end"/>
+      <img src="./images/467/finger.png" alt="" id="finger" />
+    </div>
+    <img src="./images/background2.png" style="width: 100vw;" />
   </div>
-  <img src="./images/background2.png" style="width: 100vw;" />
 </body>
 <script>
   const width = window.innerWidth
@@ -89,21 +91,39 @@
   }
 
   function initial() {
-    cover.width = width
-    cover.height = height
-    const image = new Image()
-    image.src = "./images/467/cover.png"
-    image.crossOrigin = 'Anonymous'
-    image.addEventListener('load', () => {
-      coverCtx.drawImage(image, 0, 0, width, height);
-      coverCtx.globalCompositeOperation = 'destination-out';
-      cover.style.background = "url(./images/467/background.png)"
-      cover.style.backgroundSize = "cover"
-    });
-    setTimeout(() => {
-      finger.remove()
-    }, 3000);
-    // 手指秒數
+    var imgs = document.images,
+    len = imgs.length,
+    counter = 0;
+
+    [].forEach.call( imgs, function( img ) {
+      if(img.complete)
+        incrementCounter();
+      else
+        img.addEventListener( 'load', incrementCounter, false );
+    } );
+
+    function incrementCounter() {
+      counter++;
+      if ( counter === len ) {
+        const container = document.getElementById("container")
+        container.style.display = "block"
+        cover.width = width
+        cover.height = height
+        const image = new Image()
+        image.src = "./images/467/cover.png"
+        image.crossOrigin = 'Anonymous'
+        image.addEventListener('load', () => {
+          coverCtx.drawImage(image, 0, 0, width, height);
+          coverCtx.globalCompositeOperation = 'destination-out';
+          cover.style.background = "url(./images/467/background.png)"
+          cover.style.backgroundSize = "cover"
+        });
+        setTimeout(() => {
+          finger.remove()
+        }, 3000);
+        // 手指秒數
+      }
+    }
   }
 
   function eventDown(ev){
