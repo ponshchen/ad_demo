@@ -20,6 +20,8 @@
       #item {
         position: absolute;
         width: 100%;
+        left: -36%;
+        top: -40%;
       }
 
       #end {
@@ -101,6 +103,7 @@
     setTimeout(() => {
       finger.remove()
     }, 3000);
+    // 手指秒數
   }
 
   function eventDown(ev){
@@ -134,12 +137,9 @@
 
   function getFilledPercentage() {
     let imgData = coverCtx.getImageData(0, 0, width, height);
-    // imgData.data是个数组，存储着指定区域每个像素点的信息，数组中4个元素表示一个像素点的rgba值
     let pixels = imgData.data;
     let transPixels = [];
     for (let i = 0; i < pixels.length; i += 4) {
-        // 严格上来说，判断像素点是否透明需要判断该像素点的a值是否等于0，
-        // 为了提高计算效率，这儿设置当a值小于128，也就是半透明状态时就可以了
         if (pixels[i + 3] < 128) {
             transPixels.push(pixels[i + 3]);
         }
@@ -150,7 +150,6 @@
   function handleFilledPercentage(percentage) {
     percentage = percentage || 0;
     if (parseInt(percentage) > 50) {
-        // 当像素点的个数超过  50% 时，清空画布，显示底图
         coverCtx.clearRect(0, 0, width, height);
         hasDone = true;
         item.remove();
