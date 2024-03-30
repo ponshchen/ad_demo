@@ -1,0 +1,166 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+   <style>
+      * {
+        margin: 0;
+      }
+
+      #ad-wrapper {
+        margin: auto;
+        width: fit-content;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #item {
+        position: absolute;
+        width: 320px;
+      }
+
+      #end {
+        width: 320px;
+        display: none;
+      }
+
+      @keyframes flash {
+        0%   {opacity: 1;}
+        50%  {opacity: 0.5;}
+        100% {opacity: 1;}
+      }
+
+      #finger {
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+        width: 56px;
+        height: 56px;
+        animation: flash 1s linear;
+        animation-iteration-count: infinite;
+      }
+    </style>
+</head>
+<body>
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <div id="ad-wrapper">
+    <img src="./images/467/item.gif" alt="" id="item" />
+    <canvas id="cover" width="320" height="480"></canvas>
+    <img src="./images/467/end.gif" alt="" onclick="openUrl()" id="end"/>
+    <img src="./images/467/finger.png" alt="" id="finger" onclick="playMusic()" />
+  </div>
+  <img src="./images/background2.png" style="width: 100vw;" />
+</body>
+<script>
+  let mousedown = false
+  let hasDone = false
+  const finger = document.getElementById("finger")
+  const ad = document.getElementById("ad-wrapper")
+  const cover = document.getElementById("cover")
+  const coverCtx = cover.getContext("2d")
+  const item = document.getElementById("item")
+  const end = document.getElementById("end")
+
+  initial()
+
+  function playMusic() {
+    const audio = document.createElement("audio");
+    audio.src = "./images/467/sound.mp3";
+    audio.loop = true
+    audio.play();
+    finger.remove();
+    ad.addEventListener('mousedown', eventDown);
+    ad.addEventListener('mouseup', eventUp);
+    document.addEventListener('mouseup', () => mousedown=false);
+    ad.addEventListener('mousemove', eventMove);
+    ad.addEventListener('touchstart', eventDown);
+    ad.addEventListener('touchend', eventUp);
+    document.addEventListener('touchend', () => mousedown=false);
+    ad.addEventListener('touchmove', eventMove);
+  }
+
+  function initial() {
+    const image = new Image()
+    image.src = "./images/467/cover.png"
+    image.crossOrigin = 'Anonymous'
+    image.addEventListener('load', () => {
+      coverCtx.drawImage(image, 0, 0, 320, 480);
+      coverCtx.globalCompositeOperation = 'destination-out';
+      cover.style.background = "url(./images/467/background.png)"
+      cover.style.backgroundSize = "cover"
+    });
+  }
+
+  function eventDown(ev){
+    ev.preventDefault();
+    mousedown=true;
+  }
+
+  function eventUp(ev){
+    ev.preventDefault();
+    mousedown=false;
+  }
+
+  function eventMove(ev){
+    ev.preventDefault();
+    if(mousedown) {
+        if(ev.changedTouches){
+            ev=ev.changedTouches[ev.changedTouches.length-1];
+        }
+        var x = ev.pageX - this.offsetLeft;
+        var y = ev.pageY - this.offsetTop;
+        coverCtx.beginPath();
+        coverCtx.arc(x, y, 30, 0, Math.PI * 2);
+        coverCtx.fill();
+        
+        item.style.left = `${x - 280}px`
+        item.style.top = `${y - 440}px`
+
+        handleFilledPercentage(getFilledPercentage());
+    }
+  }
+
+  function getFilledPercentage() {
+    let imgData = coverCtx.getImageData(0, 0, 320, 480);
+    // imgData.data是个数组，存储着指定区域每个像素点的信息，数组中4个元素表示一个像素点的rgba值
+    let pixels = imgData.data;
+    let transPixels = [];
+    for (let i = 0; i < pixels.length; i += 4) {
+        // 严格上来说，判断像素点是否透明需要判断该像素点的a值是否等于0，
+        // 为了提高计算效率，这儿设置当a值小于128，也就是半透明状态时就可以了
+        if (pixels[i + 3] < 128) {
+            transPixels.push(pixels[i + 3]);
+        }
+    }
+    return ((transPixels.length / (pixels.length / 4)) * 100).toFixed(2) + '%';
+  }
+
+  function handleFilledPercentage(percentage) {
+    percentage = percentage || 0;
+    if (parseInt(percentage) > 50) {
+        // 当像素点的个数超过  50% 时，清空画布，显示底图
+        coverCtx.clearRect(0, 0, 320, 480);
+        hasDone = true;
+        item.remove();
+        cover.remove();
+        end.style.display = "block"
+        ad.removeEventListener('mousedown', eventDown);
+        ad.removeEventListener('mouseup', eventUp);
+        document.removeEventListener('mouseup', () => mousedown=false);
+        ad.removeEventListener('mousemove', eventMove);
+        ad.removeEventListener('touchstart', eventDown);
+        ad.removeEventListener('touchend', eventUp);
+        document.removeEventListener('touchend', () => mousedown=false);
+        ad.removeEventListener('touchmove', eventMove);
+    }
+  }
+
+  function openUrl(){
+    window.open('https://www.monkeyshoulder.com');
+  }
+</script>
+</html>
