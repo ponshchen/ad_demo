@@ -54,7 +54,7 @@
   <img src="./images/background0.png" style="width: 100vw;" />
   <img src="./images/background1.png" style="width: 100vw;" />
   <div style="width: 100%; position: relative;">
-    <div id="adContainer">
+    <div id="adContainer" style="display: none;">
       <div id="videoContainer">
         <video loop muted playsinline id="video" onclick="openUrl()">
           <source src="./images/469/video.mp4" type="video/mp4">
@@ -87,6 +87,8 @@
   };
 
   function scrollListener(event) {
+    if (video.readyState !== 4) return
+    adContainer.style.display = "block"
     if (isBelow === undefined) {
       isBelow = container.getClientRects()[0].y > window.screen.height / 2
     }
