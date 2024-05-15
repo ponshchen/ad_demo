@@ -39,12 +39,11 @@
       width: 100%;
     }
 
-    #gif {
+    #video0 {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 0;
+      left: 0;
       width: 100%;
-      transform: translate(-50%, -50%);
       display: none;
       transition: 0.5s;
     }
@@ -64,7 +63,10 @@
       </div>
       <img src="./images/471/up.png" id="image1" onclick="openUrl()" />
       <img src="./images/471/down.png" id="image2" onclick="openUrl()" />
-      <img src="" id="gif" onclick="openUrl()" />
+      <video muted playsinline id="video0" onclick="openUrl()">
+        <source src="./images/471/video0.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
   </div>
   <img src="./images/background2.png" style="width: 100vw;" />
@@ -111,19 +113,19 @@
     adContainer.style.height = 'calc(150vw - 1px)'
     image2.style.left = '0'
     setTimeout(() => {
-      const gif = document.getElementById('gif');
-      gif.style.display = 'block'
-      gif.src = './images/3/2.gif'
-      gif.style.zIndex = '100'
+      const video0 = document.getElementById('video0');
+      video0.style.display = 'block';
+      video0.style.zIndex = '100';
+      video0.play();
       setTimeout(() => {
-        gif.style.opacity = 0
+        video0.style.opacity = 0
         setTimeout(() => {
-          gif.style.display = 'none'
+          video0.remove();
           window.addEventListener('scroll', checkVideo);
           video.play()
           muteButton.style.opacity = '1'
-        }, 0)
-      }, 5000);
+        }, 500); // 漸層消失的時間
+      }, 5000); // 第一個影片的播放時間
     }, 0) // 開啟的延遲時間
   }
 
