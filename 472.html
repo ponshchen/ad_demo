@@ -1,0 +1,194 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+   <style>
+      * {
+        margin: 0;
+      }
+
+      #ad-wrapper {
+        margin: auto;
+        width: fit-content;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #item {
+        position: absolute;
+        width: 100%;
+        left: -36%;
+        top: -40%;
+      }
+
+      #video {
+        width: 100%;
+        display: none;
+      }
+
+      @keyframes flash {
+        0%   {opacity: 1;}
+        50%  {opacity: 0.5;}
+        100% {opacity: 1;}
+      }
+
+      #finger {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 56px;
+        height: 56px;
+        animation: flash 1s linear;
+        animation-iteration-count: infinite;
+      }
+    </style>
+</head>
+<body>
+  <div id="container" style="display: none">
+    <img src="./images/background0.png" style="width: 100vw;" />
+    <img src="./images/background1.png" style="width: 100vw;" />
+    <div id="ad-wrapper">
+      <img src="./images/472/item.gif" alt="" id="item" />
+      <canvas id="cover"></canvas>
+      <video muted loop playsinline id="video" onclick="openUrl()">
+        <source src="./images/472/video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <img src="./images/472/finger.png" alt="" id="finger" />
+    </div>
+    <img src="./images/background2.png" style="width: 100vw;" />
+  </div>
+</body>
+<script>
+  const width = window.innerWidth
+  const height = width * 480 / 320
+  let mousedown = false
+  let hasDone = false
+  const finger = document.getElementById("finger")
+  const ad = document.getElementById("ad-wrapper")
+  const cover = document.getElementById("cover")
+  const coverCtx = cover.getContext("2d")
+  const item = document.getElementById("item")
+  const video = document.getElementById("video")
+
+  initial()
+
+  function start() {
+    finger.remove();
+    ad.addEventListener('mousedown', eventDown);
+    ad.addEventListener('mouseup', eventUp);
+    document.addEventListener('mouseup', () => mousedown=false);
+    ad.addEventListener('mousemove', eventMove);
+    ad.addEventListener('touchstart', eventDown);
+    ad.addEventListener('touchend', eventUp);
+    document.addEventListener('touchend', () => mousedown=false);
+    ad.addEventListener('touchmove', eventMove);
+  }
+
+  function initial() {
+    var imgs = document.images,
+    len = imgs.length,
+    counter = 0;
+
+    [].forEach.call( imgs, function( img ) {
+      if(img.complete)
+        incrementCounter();
+      else
+        img.addEventListener( 'load', incrementCounter, false );
+    } );
+
+    function incrementCounter() {
+      counter++;
+      if ( counter === len ) {
+        const container = document.getElementById("container")
+        container.style.display = "block"
+        cover.width = width
+        cover.height = height
+        const image = new Image()
+        image.src = "./images/472/cover.png"
+        image.crossOrigin = 'Anonymous'
+        image.addEventListener('load', () => {
+          coverCtx.drawImage(image, 0, 0, width, height);
+          coverCtx.globalCompositeOperation = 'destination-out';
+          cover.style.background = "url(./images/472/background.png)"
+          cover.style.backgroundSize = "cover"
+        });
+        setTimeout(() => {
+          start()
+        }, 3000);
+        // 手指秒數
+      }
+    }
+  }
+
+  function eventDown(ev){
+    ev.preventDefault();
+    mousedown=true;
+  }
+
+  function eventUp(ev){
+    ev.preventDefault();
+    mousedown=false;
+  }
+
+  function eventMove(ev){
+    ev.preventDefault();
+    if(mousedown) {
+        if(ev.changedTouches){
+            ev=ev.changedTouches[ev.changedTouches.length-1];
+        }
+        var x = ev.pageX - this.offsetLeft;
+        var y = ev.pageY - this.offsetTop;
+        coverCtx.beginPath();
+        coverCtx.arc(x, y, 30, 0, Math.PI * 2);
+        coverCtx.fill();
+        
+        item.style.left = `${x - width + (width * 0.125)}px`
+        item.style.top = `${y - height + (height * 0.125)}px`
+
+        handleFilledPercentage(getFilledPercentage());
+    }
+  }
+
+  function getFilledPercentage() {
+    let imgData = coverCtx.getImageData(0, 0, width, height);
+    let pixels = imgData.data;
+    let transPixels = [];
+    for (let i = 0; i < pixels.length; i += 4) {
+        if (pixels[i + 3] < 128) {
+            transPixels.push(pixels[i + 3]);
+        }
+    }
+    return ((transPixels.length / (pixels.length / 4)) * 100).toFixed(2) + '%';
+  }
+
+  function handleFilledPercentage(percentage) {
+    percentage = percentage || 0;
+    // 設定多少 % 的畫面被噴漆就下一 cut
+    if (parseInt(percentage) > 30) {
+        coverCtx.clearRect(0, 0, width, height);
+        hasDone = true;
+        item.remove();
+        cover.remove();
+        video.style.display = "block"
+        video.play();
+        ad.removeEventListener('mousedown', eventDown);
+        ad.removeEventListener('mouseup', eventUp);
+        document.removeEventListener('mouseup', () => mousedown=false);
+        ad.removeEventListener('mousemove', eventMove);
+        ad.removeEventListener('touchstart', eventDown);
+        ad.removeEventListener('touchend', eventUp);
+        document.removeEventListener('touchend', () => mousedown=false);
+        ad.removeEventListener('touchmove', eventMove);
+    }
+  }
+
+  function openUrl(){
+    window.open('https://www.monkeyshoulder.com');
+  }
+</script>
+</html>
