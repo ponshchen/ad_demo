@@ -1,0 +1,104 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content-gallery h5 template</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+   <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .cover {
+        position: fixed;
+        width: 320px;
+        height: 560px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .ad-img {
+        width: 100%;
+        object-fit: contain;
+      }
+
+      .countdown {
+        width: 100%;
+        height: 80px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e70000; /* 底色 */
+        font-size: 20px;
+        color: white; /* 文案顏色 */
+        padding: 16px;
+      }
+
+      p {
+        color: #ffff00; /* 倒數數字顏色 */
+        margin: 0 4px;
+        width: 24px;
+      }
+    </style>
+</head>
+<body>
+  <img src="./images/background0.png" style="width: 100vw;" />
+  <img src="./images/background1.png" style="width: 100vw;" />
+  <img src="./images/background2.png" style="width: 100vw;" />
+  <div class="cover" id="ad">
+    <img onclick="closeAd()" src="./images/close.png" style="position: absolute; top: 10px; right: 10px; height: 24px; width: 24px; display: none;" id="closeButton" />
+    <img class="ad-img" src="./images/474/1.jpg" alt="" onclick="openUrl()">
+    <div class="countdown">感謝祭倒數 <p id="hour"></p> 小時 <p id="minute"></p> 分 <p id="second"></p>秒</div>
+  </div>
+</body>
+<script>
+const ad = document.getElementById('ad');
+const closeButton = document.getElementById('closeButton');
+const hourString = document.getElementById('hour')
+const minuteString = document.getElementById('minute')
+const secondString = document.getElementById('second')
+
+setTimeout(() => {
+  closeButton.style.display = 'block'
+}, 3000)
+
+function fillNumber(number) {
+  const result = number.toString()
+  if (result.length === 1) return `0${number}`
+  else return result
+}
+
+function updateDate() {
+  const date1 = new Date();
+  const date2 = new Date("2024/06/07 00:00:00"); // 結束時間
+  const diffTime = Math.abs(date2 - date1);
+  const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+  hourString.innerText = diffHours;
+  const diffMinutes = Math.floor(diffTime / (1000 * 60) - diffHours * 60)
+  minuteString.innerText = fillNumber(diffMinutes);
+  const diffSeconds = Math.floor(diffTime / 1000 - diffHours * 60 * 60 - diffMinutes * 60)
+  secondString.innerText = fillNumber(diffSeconds);
+}
+
+updateDate();
+
+setInterval(updateDate, 1000);
+
+function closeAd() {
+  ad.remove()
+}
+
+function openUrl(){
+  // 導連連結
+  window.open(' https://www.uniqlo.com/tw/zh_TW/?utm_campaign=24SS_MK_KSS&utm_source=signin&utm_medium=display&utm_content=Banner_JPG_SP_24SS_KSS_last_4_days_female&utm_term=Awareness');
+}
+</script>
+</html>
