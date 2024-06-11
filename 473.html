@@ -52,13 +52,13 @@
     <img src="./images/background0.png" style="width: 100vw;" />
     <img src="./images/background1.png" style="width: 100vw;" />
     <div id="ad-wrapper">
-      <img src="./images/472/item.gif" alt="" id="item" />
+      <img src="./images/473/item.gif" alt="" id="item" />
       <canvas id="cover"></canvas>
       <video muted loop playsinline id="video" onclick="openUrl()">
-        <source src="./images/472/video.mp4" type="video/mp4">
+        <source src="./images/473/video.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
-      <img src="./images/472/finger.png" alt="" id="finger" />
+      <img src="./images/473/finger.png" alt="" id="finger" />
     </div>
     <img src="./images/background2.png" style="width: 100vw;" />
   </div>
@@ -108,12 +108,12 @@
         cover.width = width
         cover.height = height
         const image = new Image()
-        image.src = "./images/472/cover.png"
+        image.src = "./images/473/cover.png"
         image.crossOrigin = 'Anonymous'
         image.addEventListener('load', () => {
           coverCtx.drawImage(image, 0, 0, width, height);
           coverCtx.globalCompositeOperation = 'destination-out';
-          cover.style.background = "url(./images/472/background.png)"
+          cover.style.background = "url(./images/473/background.png)"
           cover.style.backgroundSize = "cover"
         });
         start();
@@ -166,7 +166,7 @@
   function handleFilledPercentage(percentage) {
     percentage = percentage || 0;
     // 設定多少 % 的畫面被噴漆就下一 cut
-    if (parseInt(percentage) > 30) {
+    if (parseInt(percentage) > 32) {
         coverCtx.clearRect(0, 0, width, height);
         hasDone = true;
         item.remove();
