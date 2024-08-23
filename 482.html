@@ -8,7 +8,7 @@
   <style>
     #adContainer {
       width: 100vw;
-      height: 46.875vw;
+      height: calc(150vw - 1px);
       position: relative;
       transition: 0.5s;
       display: flex;
@@ -21,18 +21,20 @@
       position: absolute;
       top: 0;
       width: 100%;
+      opacity: 0;
     }
 
     #image2 {
       position: absolute;
       bottom: 0;
       width: 100%;
-      left: 100%;
+      opacity: 0;
     }
 
     #videoContainer {
       position: relative;
       display: flex;
+      opacity: 0;
     }
 
     #video {
@@ -44,8 +46,8 @@
       top: 0;
       left: 0;
       width: 100%;
-      display: none;
       transition: 0.5s;
+      z-index: 100;
     }
   </style>
 </head>
@@ -74,7 +76,9 @@
 </html>
 <script>
   const container = document.getElementById('adContainer');
+  const image1 = document.getElementById('image1');
   const image2 = document.getElementById('image2');
+  const videoContainer = document.getElementById('videoContainer');
   const video = document.getElementById('video');
   const muteButton = document.getElementById('muteButton');
   let isBelow = undefined
@@ -99,12 +103,12 @@
     const current = container.getClientRects()[0].y
     if (isBelow) {
       if (current > end) {
-        image2.style.left = `${(current - end) / (start - end) * 100}%`
+        // image2.style.left = `${(current - end) / (start - end) * 100}%`
         return
       }
     } else {
       if (current < end) {
-        image2.style.left = `${(end - current) / (end - start) * 100}%`
+        // image2.style.left = `${(end - current) / (end - start) * 100}%`
         return
       }
     }
@@ -114,11 +118,12 @@
     image2.style.left = '0'
     setTimeout(() => {
       const video0 = document.getElementById('video0');
-      video0.style.display = 'block';
-      video0.style.zIndex = '100';
       video0.play();
       setTimeout(() => {
         video0.style.opacity = 0
+        image1.style.opacity = 1
+        image2.style.opacity = 1
+        videoContainer.style.opacity = 1
         setTimeout(() => {
           video0.remove();
           window.addEventListener('scroll', checkVideo);
