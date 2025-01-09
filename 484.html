@@ -4,7 +4,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>content-gallery h5 template</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
     <style>
       * {
         margin: 0;
@@ -25,7 +28,35 @@
         align-items: center;
         justify-content: center;
         gap: 12px;
-        background: white;
+        background: black;
+      }
+
+      .container {
+        position: absolute;
+        right: 24px;
+        top: 0;
+        bottom: 24px;
+        width: 40%;
+        border-radius: 0 0 10px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      #buttonCover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        border-radius: 0 0 10px 10px;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.5s;
+        z-index: 100;
       }
 
       #button {
@@ -33,22 +64,125 @@
         background: gray;
         color: black;
       }
+
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 0 10px 10px;
+        background-color: white;
+        box-shadow: 0px 12px 5px 0px rgba(0, 0, 0, 0.2);
+      }
+
+      .slideContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px;
+      }
     </style>
   </head>
-
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <body>
     <img src="./images/background0.png" style="width: 100vw" />
     <img src="./images/background1.png" style="width: 100vw" />
     <img src="./images/background2.png" style="width: 100vw" />
     <div class="cover" id="ad">
-      <div id="button" onclick="getUserPosition()">點我算出距離</div>
-      <p>冠中家：<b>25.022849, 121.536341</b></p>
-      <p>現在位置：<b id="position">???, ???</b></p>
-      <p>離冠中家：<b id="distance">???</b> km</p>
+      <div class="container">
+        <div id="buttonCover">
+          <div id="button" onclick="getUserPosition()">尋找麥當勞</div>
+        </div>
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="slideContainer" id="slide1"></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="slideContainer" id="slide2"></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="slideContainer" id="slide3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
-
   <script>
+    const locations = [
+      {
+        name: "麥當勞-忠孝五餐廳",
+        coordinate: { lat: 25.042647779740488, lon: 121.55009776361777 },
+        address: "106台北市大安區忠孝東路四段73-1號",
+      },
+      {
+        name: "麥當勞-台北光復餐廳",
+        coordinate: { lat: 25.040120488723584, lon: 121.55859500177971 },
+        address: "106台北市大安區光復南路286號",
+      },
+      {
+        name: "麥當勞－台北南京五餐廳",
+        coordinate: { lat: 25.052445400130466, lon: 121.54546290639709 },
+        address: "104台北市中山區南京東路三段210號1樓",
+      },
+      {
+        name: "麥當勞-台北南京六餐廳",
+        coordinate: { lat: 25.052445400130466, lon: 121.55280143029154 },
+        address: "105台北市松山區南京東路四段57號",
+      },
+      {
+        name: "麥當勞-台北大巨蛋餐廳",
+        coordinate: { lat: 25.043394836207142, lon: 121.55959451077133 },
+        address: "110台北市信義區忠孝東路四段515號FD棟B2",
+      },
+      {
+        name: "麥當勞-台北信義餐廳",
+        coordinate: { lat: 25.034379975752152, lon: 121.55312956900508 },
+        address: "106台北市大安區信義路四段273號",
+      },
+      {
+        name: "麥當勞-台北濟南餐廳",
+        coordinate: { lat: 25.040740783639585, lon: 121.53464387625544 },
+        address: "100台北市中正區濟南路二段66號1樓",
+      },
+      {
+        name: "麥當勞-復興二餐廳",
+        coordinate: { lat: 25.026279764548494, lon: 121.54676564203115 },
+        address: "106台北市大安區復興南路二段273號",
+      },
+      {
+        name: "麥當勞-長春餐廳",
+        coordinate: { lat: 25.055337361590396, lon: 121.53691670733598 },
+        address: "104台北市中山區長春路172號",
+      },
+      {
+        name: "麥當勞-林森一餐廳",
+        coordinate: { lat: 25.054193491922078, lon: 121.52747183151548 },
+        address: "104台北市中山區南京東路一段86號",
+      },
+    ];
+    const swiper = new Swiper(".mySwiper", {
+      grabCursor: true,
+      effect: "creative",
+      creativeEffect: {
+        prev: {
+          shadow: true,
+          translate: [0, 0, -400],
+        },
+        next: {
+          translate: [0, "-100%", 0],
+        },
+      },
+      loop: true,
+      autoplay: {
+        delay: 3000,
+      },
+    });
     const ad = document.getElementById("ad");
 
     function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -75,16 +209,32 @@
       if ("geolocation" in navigator) {
         /* geolocation is available */
         navigator.geolocation.getCurrentPosition((position) => {
-          const distance = haversineDistance(
-            25.022849,
-            121.536341,
-            position.coords.latitude,
-            position.coords.longitude
-          );
-          document.getElementById(
-            "position"
-          ).innerText = `${position.coords.latitude}, ${position.coords.longitude}`;
-          document.getElementById("distance").innerText = distance.toFixed(2);
+          const sortedLocations = locations
+            .map((location) => {
+              const distance = haversineDistance(
+                location.coordinate.lat,
+                location.coordinate.lon,
+                position.coords.latitude,
+                position.coords.longitude
+              );
+              return { ...location, distance };
+            })
+            .sort((a, b) => (a.distance > b.distance ? 1 : -1))
+            .slice(0, 3);
+          console.log(sortedLocations);
+          // let slidesHTML = "";
+          sortedLocations.forEach((location, index) => {
+            document.getElementById(`slide${index + 1}`).innerHTML = `<p>${
+              location.name
+            }</p><p>${location.distance.toFixed(2)}km</p><p>${
+              location.address
+            }</p>`;
+          });
+
+          document.getElementById("buttonCover").style.opacity = 0;
+          setTimeout(() => {
+            document.getElementById("buttonCover").remove();
+          }, 500);
         });
       } else {
         /* geolocation IS NOT available */
