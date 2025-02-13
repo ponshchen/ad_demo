@@ -38,6 +38,16 @@
         width: 100vw;
         height: 213vw;
         max-height: 100vh;
+        position: relative;
+      }
+
+      #button {
+        position: absolute;
+        width: 10vw;
+        height: 10vw;
+        top: 47vw;
+        right: 0;
+        z-index: 5;
       }
 
       video {
@@ -55,12 +65,13 @@
     <img src="./images/background2.png" style="width: 100vw" />
     <div class="cover" id="ad">
       <img src="./images/close.png" id="close" onclick="closeOnClick()" />
-      <div class="container" onclick="openAd()">
-        <video muted playsinline autoplay id="video1">
+      <div class="container">
+        <div id="button" onclick="muteButtonOnClick()"></div>
+        <video muted playsinline autoplay id="video1" onclick="openAd()">
           <source src="./images/485/1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <video muted playsinline loop id="video2">
+        <video muted playsinline loop id="video2" onclick="openAd()">
           <source src="./images/485/2.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -84,6 +95,11 @@
 
     const openAd = () => {
       window.open("https://www.jing-chi.com.tw/");
+    };
+
+    const muteButtonOnClick = () => {
+      video1.muted = !video1.muted;
+      video2.muted = !video2.muted;
     };
   </script>
 </html>
