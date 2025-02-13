@@ -1,0 +1,89 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>content-gallery h5 template</title>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .cover {
+        position: fixed;
+        width: 100vw;
+        bottom: 0;
+        left: 0;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        z-index: 5;
+      }
+
+      .container {
+        width: 100%;
+      }
+
+      video {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      #video2 {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <img src="./images/background2.png" style="width: 100vw" />
+    <div class="cover" id="ad">
+      <img src="./images/close.png" id="close" onclick="closeOnClick()" />
+      <div class="container" onclick="openAd()">
+        <video muted playsinline autoplay id="video1">
+          <source src="./images/485/1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <video muted playsinline loop id="video2">
+          <source src="./images/485/2.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </body>
+  <script>
+    const ad = document.getElementById("ad");
+    const video1 = document.getElementById("video1");
+    const video2 = document.getElementById("video2");
+
+    video1.addEventListener("ended", () => {
+      video1.style.display = "none";
+      video2.style.display = "block";
+      video2.play();
+    });
+
+    const closeOnClick = () => {
+      ad.remove();
+    };
+
+    const openAd = () => {
+      window.open("https://www.jing-chi.com.tw/");
+    };
+  </script>
+</html>
