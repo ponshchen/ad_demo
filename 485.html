@@ -43,11 +43,12 @@
 
       #button {
         position: absolute;
-        width: 10vw;
-        height: 10vw;
-        top: 47vw;
+        width: 9vw;
+        height: 9vw;
+        top: 48vw;
         right: 0;
         z-index: 5;
+        display: none;
       }
 
       video {
@@ -67,12 +68,8 @@
       <img src="./images/close.png" id="close" onclick="closeOnClick()" />
       <div class="container">
         <div id="button" onclick="muteButtonOnClick()"></div>
-        <video muted playsinline autoplay id="video1" onclick="openAd()">
+        <video muted playsinline autoplay id="video" onclick="openAd()">
           <source src="./images/485/1.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <video muted playsinline loop id="video2" onclick="openAd()">
-          <source src="./images/485/2.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
@@ -80,13 +77,17 @@
   </body>
   <script>
     const ad = document.getElementById("ad");
-    const video1 = document.getElementById("video1");
-    const video2 = document.getElementById("video2");
+    const video = document.getElementById("video");
+    const button = document.getElementById("button");
+    const firstCutDuration = 5;
 
-    video1.addEventListener("ended", () => {
-      video1.style.display = "none";
-      video2.style.display = "block";
-      video2.play();
+    setTimeout(() => {
+      button.style.display = "block";
+    }, firstCutDuration * 1000);
+
+    video.addEventListener("ended", () => {
+      video.currentTime = firstCutDuration;
+      video.play();
     });
 
     const closeOnClick = () => {
@@ -98,8 +99,7 @@
     };
 
     const muteButtonOnClick = () => {
-      video1.muted = !video1.muted;
-      video2.muted = !video2.muted;
+      video.muted = !video.muted;
     };
   </script>
 </html>
