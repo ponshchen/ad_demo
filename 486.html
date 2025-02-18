@@ -22,7 +22,7 @@
     <img src="./images/background0.png" style="width: 100vw" />
     <img src="./images/background1.png" style="width: 100vw" />
     <div id="ad" onclick="openAd()">
-      <video autoplay muted playsinline style="width: 100%">
+      <video muted playsinline style="width: 100%" id="video">
         <source src="./images/486/1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -30,6 +30,20 @@
     <img src="./images/background2.png" style="width: 100vw" />
   </body>
   <script>
+    const banner = document.getElementById("ad");
+    const video = document.getElementById("video");
+
+    window.addEventListener("scroll", scrollListener);
+
+    function scrollListener(event) {
+      if (
+        banner.getClientRects()[0].y <
+        window.screen.height - banner.clientHeight
+      ) {
+        window.removeEventListener("scroll", scrollListener);
+        video.play();
+      }
+    }
     const openAd = () => {
       window.open("https://www.uni-sunshine.com.tw/products/content/6");
     };
