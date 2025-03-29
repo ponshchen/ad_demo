@@ -1,0 +1,129 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>content-gallery h5 template</title>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .cover {
+        width: 100vw;
+        height: 150vw;
+        position: relative;
+      }
+
+      .image {
+        position: absolute;
+        width: 100%;
+      }
+
+      .button {
+        position: absolute;
+        bottom: 6vw;
+        right: 7vw;
+        width: 30vw;
+        height: 16vw;
+      }
+
+      #label {
+        position: absolute;
+        bottom: 6.5vw;
+        left: 36vw;
+        width: 20vw;
+        text-align: right;
+        font-size: 10.5vw;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <img src="./images/background2.png" style="width: 100vw" />
+    <div class="cover" id="ad" onclick="openUrl()">
+      <img class="image" src="./images/487/1.png" />
+      <img class="image" src="./images/487/2.png" />
+      <div class="button" onclick="getUserPosition()"></div>
+      <div id="label">0</div>
+    </div>
+  </body>
+  <script>
+    const locations = [
+      {
+        name: "屈臣氏 和平門市",
+        coordinate: { lat: 25.02581934882169, lon: 121.53852155093823 },
+      },
+    ];
+    let countUp = true;
+    let redirectUrl = "";
+
+    const randomDistance = setInterval(() => {
+      const label = document.getElementById("label");
+      const currentDistance = Number(label.innerText);
+      if (currentDistance === 10) countUp = false;
+      if (currentDistance === 0) countUp = true;
+      const newDistance = currentDistance + (countUp ? 0.2 : -0.2);
+      label.innerText = newDistance.toFixed(1);
+    }, 100);
+
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // 地球半徑（公里）
+
+      // 將角度轉換為弧度
+      const toRadians = (angle) => angle * (Math.PI / 180);
+
+      const φ1 = toRadians(lat1);
+      const φ2 = toRadians(lat2);
+      const Δφ = toRadians(lat2 - lat1);
+      const Δλ = toRadians(lon2 - lon1);
+
+      // Haversine公式
+      const a =
+        Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      return R * c; // 距離（公里）
+    }
+
+    function getUserPosition() {
+      if ("geolocation" in navigator) {
+        /* geolocation is available */
+        navigator.geolocation.getCurrentPosition((position) => {
+          const sortedLocations = locations
+            .map((location) => {
+              const distance = haversineDistance(
+                location.coordinate.lat,
+                location.coordinate.lon,
+                position.coords.latitude,
+                position.coords.longitude
+              );
+              return { ...location, distance };
+            })
+            .sort((a, b) => (a.distance > b.distance ? 1 : -1));
+          const nearestLoction = sortedLocations[0];
+          clearInterval(randomDistance);
+          const label = document.getElementById("label");
+          label.innerText = nearestLoction.distance.toFixed(1);
+          redirectUrl = `https://www.google.com/maps/dir/?api=1&origin=&destination=${nearestLoction.name.replace(
+            " ",
+            "+"
+          )}&travelmode=driving`;
+        });
+      } else {
+        /* geolocation IS NOT available */
+        window.alert("此瀏覽器不支援");
+      }
+    }
+
+    function openUrl() {
+      redirectUrl !== "" && window.open(redirectUrl);
+    }
+  </script>
+</html>
