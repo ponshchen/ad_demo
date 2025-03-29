@@ -16,11 +16,20 @@
       .cover {
         width: 100vw;
         height: 150vw;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .images {
+        width: 100%;
+        flex: 1;
         position: relative;
       }
 
       .image {
         position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
       }
 
@@ -34,11 +43,15 @@
 
       #label {
         position: absolute;
-        bottom: 6.5vw;
+        bottom: 6vw;
         left: 36vw;
         width: 20vw;
         text-align: right;
         font-size: 10.5vw;
+      }
+
+      video {
+        width: 100%;
       }
     </style>
   </head>
@@ -46,10 +59,16 @@
     <img src="./images/background0.png" style="width: 100vw" />
     <img src="./images/background1.png" style="width: 100vw" />
     <div class="cover" id="ad" onclick="openUrl()">
-      <img class="image" src="./images/487/1.png" />
-      <img class="image" src="./images/487/2.png" />
-      <div class="button" onclick="getUserPosition()"></div>
-      <div id="label">0.0</div>
+      <video loop muted playsinline autoplay>
+        <source src="./images/488/video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="images">
+        <img class="image" src="./images/488/1.png" />
+        <img class="image" src="./images/488/2.png" />
+        <div class="button" onclick="getUserPosition()"></div>
+        <div id="label">0.0</div>
+      </div>
     </div>
     <img src="./images/background2.png" style="width: 100vw" />
   </body>
