@@ -1,0 +1,77 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>content-gallery h5 template</title>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .container {
+        width: 100vw;
+        height: 150vw;
+        display: flex;
+        align-items: center;
+      }
+
+      .videoContainer {
+        width: 100%;
+        position: relative;
+      }
+
+      #muteButton {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        height: 24px;
+        width: 24px;
+        z-index: 99;
+      }
+
+      video {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <div class="container">
+      <div class="videoContainer">
+        <img
+          onclick="muteButtonOnClick()"
+          src="./images/mute.png"
+          id="muteButton"
+        />
+        <video muted playsinline autoplay id="video" onclick="openAd()">
+          <source src="./images/490/1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    <img src="./images/background2.png" style="width: 100vw" />
+  </body>
+  <script>
+    const ad = document.getElementById("ad");
+    const video = document.getElementById("video");
+    const button = document.getElementById("button");
+    const muteButton = document.getElementById("muteButton");
+
+    const openAd = () => {
+      window.open(
+        "https://mall.sfworldwide.com/bundle-1720.html?utm_source=youtube&utm_medium=cpm&utm_campaign=snp_202505_3%E9%87%8D%E5%84%AA%E8%9B%8B%E7%99%BD_youtube"
+      );
+    };
+
+    const muteButtonOnClick = () => {
+      video.muted = !video.muted;
+      muteButton.src = `./images/${video.muted ? "mute" : "volume"}.png`;
+    };
+  </script>
+</html>
