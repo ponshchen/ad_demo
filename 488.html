@@ -50,6 +50,19 @@
         font-size: 10.5vw;
       }
 
+      .videoContainer {
+        position: relative;
+      }
+
+      #muteButton {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        height: 24px;
+        width: 24px;
+        z-index: 99;
+      }
+
       video {
         width: 100%;
       }
@@ -59,10 +72,17 @@
     <img src="./images/background0.png" style="width: 100vw" />
     <img src="./images/background1.png" style="width: 100vw" />
     <div class="cover" id="ad" onclick="openUrl()">
-      <video loop muted playsinline autoplay>
-        <source src="./images/488/video.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <div class="videoContainer">
+        <img
+          onclick="muteButtonOnClick()"
+          src="./images/mute.png"
+          id="muteButton"
+        />
+        <video loop muted playsinline autoplay id="video">
+          <source src="./images/488/video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
       <div class="images">
         <img class="image" src="./images/488/1.png" />
         <img class="image" src="./images/488/2.png" />
@@ -117,6 +137,8 @@
     ];
     let countUp = true;
     let redirectUrl = "";
+    const video = document.getElementById("video");
+    const muteButton = document.getElementById("muteButton");
 
     const randomDistance = setInterval(() => {
       const label = document.getElementById("label");
@@ -180,5 +202,10 @@
     function openUrl() {
       redirectUrl !== "" && window.open(redirectUrl);
     }
+
+    const muteButtonOnClick = () => {
+      video.muted = !video.muted;
+      muteButton.src = `./images/${video.muted ? "mute" : "volume"}.png`;
+    };
   </script>
 </html>
