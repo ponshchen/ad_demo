@@ -1,0 +1,200 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>content-gallery h5 template</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .container {
+        width: 320px;
+        height: 480px;
+      }
+
+      .topImage {
+        display: none;
+        width: 320px;
+        height: 320px;
+      }
+
+      .bottom {
+        position: relative;
+        width: 320px;
+        height: 160px;
+        display: flex;
+        justify-content: center;
+      }
+
+      #arrowLeft {
+        position: absolute;
+        width: 24px;
+        top: 48px;
+        left: 8px;
+        z-index: 10;
+      }
+
+      #arrowRight {
+        position: absolute;
+        width: 24px;
+        top: 48px;
+        right: 8px;
+        z-index: 10;
+      }
+
+      .swiper-container {
+        width: 232px;
+        height: 100px;
+        margin-top: 15px;
+      }
+
+      .swiper-slide {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+      }
+
+      .swiper-slide img {
+        width: 100%;
+      }
+
+      .swiper-slide-visible {
+        opacity: 1;
+      }
+
+      .swiper-slide-prev {
+        opacity: 1;
+      }
+
+      .swiper-slide-next {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <div class="container">
+      <div class="top">
+        <img
+          src="./images/500/1.jpg"
+          class="topImage"
+          id="top_1"
+          style="display: block"
+          onclick="openUrl('url1')"
+        />
+        <img
+          src="./images/500/2.jpg"
+          class="topImage"
+          id="top_2"
+          onclick="openUrl('url2')"
+        />
+        <img
+          src="./images/500/3.jpg"
+          class="topImage"
+          id="top_3"
+          onclick="openUrl('url3')"
+        />
+        <img
+          src="./images/500/4.jpg"
+          class="topImage"
+          id="top_4"
+          onclick="openUrl('url4')"
+        />
+      </div>
+      <div class="bottom">
+        <img
+          src="./images/500/arrowLeft.png"
+          id="arrowLeft"
+          onclick="slidePrev()"
+        />
+        <img
+          src="./images/500/arrowright.png"
+          id="arrowRight"
+          onclick="slideNext()"
+        />
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" class="bottom_2" onclick="updateIndex(2)">
+              <img src="./images/500/2.jpg" alt="" />
+            </div>
+            <div class="swiper-slide" class="bottom_3" onclick="updateIndex(3)">
+              <img src="./images/500/3.jpg" alt="" />
+            </div>
+            <div class="swiper-slide" class="bottom_4" onclick="updateIndex(4)">
+              <img src="./images/500/4.jpg" alt="" />
+            </div>
+            <div class="swiper-slide" class="bottom_2" onclick="updateIndex(2)">
+              <img src="./images/500/2.jpg" alt="" />
+            </div>
+            <div class="swiper-slide" class="bottom_3" onclick="updateIndex(3)">
+              <img src="./images/500/3.jpg" alt="" />
+            </div>
+            <div class="swiper-slide" class="bottom_4" onclick="updateIndex(4)">
+              <img src="./images/500/4.jpg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="./images/background2.png" style="width: 100vw" />
+  </body>
+  <script>
+    const maxIndex = 4;
+    let index = 1;
+    const swiper = new Swiper(".swiper-container", {
+      effect: "coverflow",
+      centeredSlides: true,
+      slidesPerView: "auto",
+      loop: true,
+      preventClicks: true,
+      loopedSlides: 3,
+      allowTouchMove: false,
+      spaceBetween: "70px",
+      coverflowEffect: {
+        slideShadows: false,
+        rotate: 0,
+        stretch: 0,
+        depth: 700,
+      },
+    });
+
+    const slideNext = () => {
+      swiper.slideNext();
+    };
+
+    const slidePrev = () => {
+      swiper.slidePrev();
+    };
+
+    const updateIndex = (newIndex) => {
+      index = newIndex;
+      let newSlides = "";
+      for (let i = 1; i < maxIndex + 1; i++) {
+        const topImage = document.getElementById(`top_${i}`);
+        if (i === index) {
+          topImage.style.display = "block";
+        } else {
+          topImage.style.display = "none";
+          newSlides += `<div class="swiper-slide" class="bottom_${i}" onclick="updateIndex(${i})"><img src="./images/500/${i}.jpg" alt="" /></div>`;
+        }
+      }
+      swiper.slidesEl.innerHTML = `${newSlides}${newSlides}`;
+    };
+
+    const openUrl = (url) => {
+      window.open(url);
+    };
+  </script>
+</html>
