@@ -99,7 +99,7 @@
     <img src="./images/background0.png" style="width: 100vw" />
     <img src="./images/background1.png" style="width: 100vw" />
     <div class="banner" id="banner">
-      <video autoplay muted playsinline style="width: 100%" id="startVideo">
+      <video muted playsinline style="width: 100%" id="startVideo">
         <source src="./images/501/start.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -187,6 +187,10 @@
         },
       },
     });
+
+    setTimeout(() => {
+      startVideo.play();
+    }, 5000);
 
     startVideo.addEventListener("ended", (event) => {
       videoContainer.style.display = "block";
