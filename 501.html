@@ -188,9 +188,21 @@
       },
     });
 
-    setTimeout(() => {
-      startVideo.play();
-    }, 5000);
+    const scrollListener = () => {
+      const videoHeight = startVideo.getBoundingClientRect().height;
+      const topValue = startVideo.getBoundingClientRect().y;
+      const screenH = window.screen.height;
+
+      if (
+        topValue < screenH - videoHeight / 2 &&
+        topValue > -(videoHeight / 2)
+      ) {
+        startVideo.play();
+        window.removeEventListener("scroll", scrollListener);
+      }
+    };
+
+    window.addEventListener("scroll", scrollListener);
 
     startVideo.addEventListener("ended", (event) => {
       videoContainer.style.display = "block";
