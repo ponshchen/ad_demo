@@ -25,6 +25,7 @@
         width: 320px;
         height: 480px;
         overflow: hidden;
+        position: relative;
       }
 
       .topImage {
@@ -90,6 +91,15 @@
 
       .swiper-slide-next {
         opacity: 1;
+      }
+
+      #outline {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 5;
       }
     </style>
   </head>
@@ -159,6 +169,7 @@
           </div>
         </div>
       </div>
+      <img src="./images/500/5.png" alt="" id="outline" />
     </div>
     <img src="./images/background2.png" style="width: 100vw" />
   </body>
