@@ -1,0 +1,244 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>content-gallery h5 template</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 56.25vw;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .swiper-container {
+        width: 80vw;
+        height: 51.43vw;
+      }
+
+      .swiper-slide {
+        width: 80vw;
+        height: 51.43vw;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .swiper-slide-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      #finger {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        transition: 0.5s;
+        width: 64px;
+        height: 64px;
+      }
+
+      #videoContainer {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 24px;
+        height: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <img src="./images/background2.png" style="width: 100vw" />
+    <div class="banner" id="banner">
+      <!-- Swiper -->
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img
+              class="swiper-slide-img"
+              src="./images/502/background.png"
+              alt=""
+              onclick="openUrl(1)"
+            />
+            <div id="videoContainer">
+              <video
+                autoplay
+                muted
+                playsinline
+                loop
+                style="width: 100%"
+                id="video1"
+                onclick="openUrl(1)"
+              >
+                <source src="./images/502/video1.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <img
+                onclick="muteButtonOnClick(1)"
+                src="./images/mute.png"
+                style="
+                  position: absolute;
+                  bottom: 16px;
+                  right: 10px;
+                  height: 24px;
+                  width: 24px;
+                "
+                id="muteButton1"
+              />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img
+              class="swiper-slide-img"
+              src="./images/502/background.png"
+              alt=""
+              onclick="openUrl(2)"
+            />
+            <div id="videoContainer">
+              <video
+                autoplay
+                muted
+                playsinline
+                loop
+                style="width: 100%"
+                id="video2"
+                onclick="openUrl(2)"
+              >
+                <source src="./images/502/video2.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <img
+                onclick="muteButtonOnClick(2)"
+                src="./images/mute.png"
+                style="
+                  position: absolute;
+                  bottom: 16px;
+                  right: 10px;
+                  height: 24px;
+                  width: 24px;
+                "
+                id="muteButton2"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <img src="./images/finger.png" alt="" id="finger" />
+      <img src="./images/close.png" alt="" id="close" onclick="closeAd()" />
+    </div>
+  </body>
+  <script>
+    const banner = document.getElementById("banner");
+    const finger = document.getElementById("finger");
+    const video1 = document.getElementById("video1");
+    const video2 = document.getElementById("video2");
+    const muteButton1 = document.getElementById("muteButton1");
+    const muteButton2 = document.getElementById("muteButton2");
+    var swiper = new Swiper(".swiper-container", {
+      // loop: true,
+      effect: "cards",
+      grabCursor: true,
+    });
+
+    swiper.on("slideChange", (e) => {
+      if (e.realIndex % 2 === 1) {
+        video2.play();
+        video1.pause();
+      } else {
+        video1.play();
+        video2.pause();
+      }
+    });
+
+    moveFinger();
+
+    function closeAd() {
+      banner.remove();
+    }
+
+    function muteButtonOnClick(index) {
+      if (index === 1) {
+        video1.muted = !video1.muted;
+        muteButton1.src = `./images/${video1.muted ? "mute" : "volume"}.png`;
+      } else {
+        video2.muted = !video2.muted;
+        muteButton2.src = `./images/${video2.muted ? "mute" : "volume"}.png`;
+      }
+    }
+
+    function moveFinger() {
+      finger.style.left = "45%";
+
+      setTimeout(() => {
+        finger.style.left = "55%";
+      }, 500);
+
+      setTimeout(() => {
+        finger.style.left = "45%";
+      }, 1000);
+
+      setTimeout(() => {
+        finger.style.left = "55%";
+      }, 1500);
+
+      setTimeout(() => {
+        finger.style.left = "45%";
+      }, 2000);
+
+      setTimeout(() => {
+        finger.style.left = "55%";
+      }, 2500);
+
+      setTimeout(() => {
+        finger.style.left = "45%";
+      }, 3000);
+
+      setTimeout(() => {
+        finger.style.opacity = "0";
+      }, 3500);
+    }
+
+    function openUrl(index) {
+      if (index === 1) {
+        window.open("https://google.com"); // 連結 1
+      } else {
+        window.open("https://google.com"); // 連結 2
+      }
+    }
+  </script>
+</html>
