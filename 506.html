@@ -23,7 +23,7 @@
       #canvaContainer {
         position: absolute;
         width: 88.8vw;
-        height: 88.8vw;
+        height: 83.8vw;
         top: 46.4vw;
         left: 5.5vw;
       }
@@ -61,13 +61,6 @@
         height: 110px;
         z-index: 20;
       }
-
-      #orange {
-        position: absolute;
-        right: 0;
-        width: 28vw;
-        top: 37vw;
-      }
     </style>
   </head>
   <body>
@@ -88,14 +81,13 @@
         </video>
         <img src="./images/506/item.gif" alt="" id="item" />
         <img src="./images/506/finger.gif" alt="" id="finger" />
-        <img src="./images/506/orange.png" alt="" id="orange" />
       </div>
       <img src="./images/background2.png" style="width: 100vw" />
     </div>
   </body>
   <script>
     const width = window.innerWidth * 0.888;
-    const height = window.innerWidth * 0.888;
+    const height = window.innerWidth * 0.838;
     let mousedown = false;
     let hasDone = false;
     const finger = document.getElementById("finger");
@@ -103,7 +95,6 @@
     const cover = document.getElementById("cover");
     const coverCtx = cover.getContext("2d");
     const item = document.getElementById("item");
-    const orange = document.getElementById("orange");
     const video1 = document.getElementById("video1");
     const video = document.getElementById("video");
 
@@ -202,7 +193,6 @@
         coverCtx.clearRect(0, 0, width, height);
         hasDone = true;
         item.remove();
-        orange.remove();
         cover.remove();
         video1.remove();
         video.style.display = "block";
