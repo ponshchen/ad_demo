@@ -31,6 +31,7 @@
       #item {
         position: absolute;
         width: 100%;
+        height: 100%;
         left: 0%;
         bottom: 10%;
         z-index: 10;
@@ -162,11 +163,12 @@
         var x = ev.pageX - this.offsetLeft - width * 0.055;
         var y = ev.pageY - this.offsetTop - width * 0.464;
         coverCtx.beginPath();
-        coverCtx.arc(x, y, 30, 0, Math.PI * 2);
+        // 第三個參數是刮掉的粗細程度
+        coverCtx.arc(x, y, 20, 0, Math.PI * 2);
         coverCtx.fill();
 
-        item.style.left = `${x - width + width * 0.125}px`;
-        item.style.top = `${y - height + height * 0.125}px`;
+        item.style.left = `${x - width + width * 0.1}px`;
+        item.style.top = `${y - height - height * 0.1}px`;
 
         handleFilledPercentage(getFilledPercentage());
       }
