@@ -150,23 +150,53 @@
         />
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" class="bottom_2" onclick="updateIndex(2)">
-              <img src="./images/500/2.jpg" alt="" />
+            <div class="swiper-slide">
+              <img
+                src="./images/500/2.jpg"
+                alt=""
+                class="image2"
+                onclick="updateIndex(this)"
+              />
             </div>
-            <div class="swiper-slide" class="bottom_3" onclick="updateIndex(3)">
-              <img src="./images/500/3.jpg" alt="" />
+            <div class="swiper-slide">
+              <img
+                src="./images/500/3.jpg"
+                alt=""
+                class="image3"
+                onclick="updateIndex(this)"
+              />
             </div>
-            <div class="swiper-slide" class="bottom_4" onclick="updateIndex(4)">
-              <img src="./images/500/4.jpg" alt="" />
+            <div class="swiper-slide">
+              <img
+                src="./images/500/4.jpg"
+                alt=""
+                class="image4"
+                onclick="updateIndex(this)"
+              />
             </div>
-            <div class="swiper-slide" class="bottom_2" onclick="updateIndex(2)">
-              <img src="./images/500/2.jpg" alt="" />
+            <div class="swiper-slide">
+              <img
+                src="./images/500/2.jpg"
+                alt=""
+                class="image2"
+                onclick="updateIndex(this)"
+              />
             </div>
-            <div class="swiper-slide" class="bottom_3" onclick="updateIndex(3)">
-              <img src="./images/500/3.jpg" alt="" />
+            <div class="swiper-slide">
+              <img
+                src="./images/500/3.jpg"
+                alt=""
+                class="image3"
+                onclick="updateIndex(this)"
+              />
             </div>
-            <div class="swiper-slide" class="bottom_4" onclick="updateIndex(4)">
-              <img src="./images/500/4.jpg" alt="" />
+            <div class="swiper-slide">
+              <img
+                src="./images/500/4.jpg"
+                alt=""
+                class="image4"
+                onclick="updateIndex(this)"
+              />
             </div>
           </div>
         </div>
@@ -203,19 +233,24 @@
       swiper.slidePrev();
     };
 
-    const updateIndex = (newIndex) => {
-      index = newIndex;
-      let newSlides = "";
+    const updateIndex = (element) => {
+      const className = element.classList[0];
+      const targetIndex = Number(className.substr(className.length - 1));
+      const elements = document.getElementsByClassName(`image${targetIndex}`);
+      [...elements].forEach((element) => {
+        element.classList.remove(`image${targetIndex}`);
+        element.classList.add(`image${index}`);
+        element.src = `./images/500/${index}.jpg`;
+      });
+      index = targetIndex;
       for (let i = 1; i < maxIndex + 1; i++) {
         const topImage = document.getElementById(`top_${i}`);
         if (i === index) {
           topImage.style.display = "block";
         } else {
           topImage.style.display = "none";
-          newSlides += `<div class="swiper-slide" class="bottom_${i}" onclick="updateIndex(${i})"><img src="./images/500/${i}.jpg" alt="" /></div>`;
         }
       }
-      swiper.slidesEl.innerHTML = `${newSlides}${newSlides}`;
     };
 
     const openUrl = (url) => {
