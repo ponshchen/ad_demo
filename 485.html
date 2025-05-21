@@ -43,10 +43,10 @@
 
       #button {
         position: absolute;
-        width: 9vw;
-        height: 9vw;
-        top: 48vw;
-        right: 0;
+        width: 8vw;
+        height: 8vw;
+        top: 45vw;
+        right: 12px;
         z-index: 5;
         display: none;
       }
@@ -67,7 +67,11 @@
     <div class="cover" id="ad">
       <img src="./images/close.png" id="close" onclick="closeOnClick()" />
       <div class="container">
-        <div id="button" onclick="muteButtonOnClick()"></div>
+        <img
+          onclick="muteButtonOnClick()"
+          src="./images/mute.png"
+          id="button"
+        />
         <video muted playsinline autoplay id="video" onclick="openAd()">
           <source src="./images/485/1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -100,6 +104,7 @@
 
     const muteButtonOnClick = () => {
       video.muted = !video.muted;
+      button.src = `./images/${video.muted ? "mute" : "volume"}.png`;
     };
   </script>
 </html>
