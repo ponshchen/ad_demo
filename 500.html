@@ -225,6 +225,12 @@
       },
     });
 
+    swiper.on("slideChangeTransitionEnd", function (s) {
+      if (s.activeIndex === 1) {
+        s.slideTo(4, 0);
+      }
+    });
+
     const slideNext = () => {
       swiper.slideNext();
     };
