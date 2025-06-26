@@ -85,6 +85,28 @@
       .swiper-pagination-bullet-active {
         background-color: gray;
       }
+
+      .bounce {
+        animation-duration: 1s;
+        /* 彈出來的速度，數字越小越快 */
+        animation-name: bounce;
+        animation-iteration-count: 3;
+        /* 彈出來的次數 */
+        animation-timing-function: ease;
+      }
+
+      @-webkit-keyframes bounce {
+        0% {
+          left: -100%;
+        }
+        50% {
+          left: -95%;
+          /* 彈出來多少，想要彈出來越多數字越接近0，0是完全出來的狀態 */
+        }
+        100% {
+          left: -100%;
+        }
+      }
     </style>
   </head>
   <body style="margin: 0">
@@ -151,6 +173,7 @@
   </body>
 </html>
 <script>
+  const container = document.getElementById("adContainer");
   const coverContainer = document.getElementById("coverContainer");
   const cover = document.getElementById("cover");
   const coverCount = 2; // 產品圖數量
@@ -163,6 +186,18 @@
       type: "bullets",
     },
   });
+
+  window.addEventListener("scroll", scrollListener);
+
+  function scrollListener(event) {
+    if (
+      container.getClientRects()[0].y <
+      window.screen.height - container.clientHeight
+    ) {
+      window.removeEventListener("scroll", scrollListener);
+      coverContainer.className = "bounce";
+    }
+  }
 
   function next() {
     swiper.slideNext();
