@@ -139,6 +139,8 @@
     <img src="./images/background2.png" style="width: 100vw" />
   </body>
   <script>
+    const banner = document.getElementById("banner");
+    let isShown = false;
     const finger = document.getElementById("finger");
     var swiper = new Swiper(".swiper-container", {
       effect: "creative",
@@ -164,10 +166,22 @@
       finger.style.opacity = "0";
     });
 
-    setInterval(() => {
-      swiper.slideNext();
-      finger.style.opacity = "0";
-    }, 4000);
+    window.addEventListener("scroll", scrollListener);
+
+    function scrollListener(event) {
+      if (
+        !isShown &&
+        banner.getClientRects()[0].y <
+          window.screen.height - banner.clientHeight
+      ) {
+        isShown = true;
+        window.removeEventListener("scroll", scrollListener);
+        setInterval(() => {
+          swiper.slideNext();
+          finger.style.opacity = "0";
+        }, 4000); // 速度在這裡，數字越小越快
+      }
+    }
 
     function openUrl() {
       window.open("https://www.aquair.com.tw/product.html");
