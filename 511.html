@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transformer</title>
+    <style>
+      #adContainer {
+        width: 100vw;
+        height: 46.875vw;
+        position: relative;
+        transition: 0.5s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      #image1 {
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+
+      #image2 {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        left: 100%;
+      }
+
+      #image3 {
+        width: 100%;
+      }
+
+      #gif {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        transform: translate(-50%, -50%);
+        display: none;
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body style="margin: 0">
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <div style="width: 100%; position: relative">
+      <div id="adContainer" onclick="openUrl()">
+        <img src="./images/511/1.jpg" id="image1" />
+        <img src="./images/511/3.jpg" id="image2" />
+        <img src="./images/511/2.jpg" id="image3" />
+        <img src="./images/511/4.gif" id="gif" />
+      </div>
+    </div>
+    <img src="./images/background2.png" style="width: 100vw" />
+  </body>
+</html>
+<script>
+  const container = document.getElementById("adContainer");
+  const image2 = document.getElementById("image2");
+  const gif = document.getElementById("gif");
+  let isBelow = undefined;
+
+  window.addEventListener("scroll", scrollListener);
+
+  function scrollListener(event) {
+    if (isBelow === undefined) {
+      isBelow = container.getClientRects()[0].y > window.screen.height / 2;
+    }
+    const windowH = window.screen.height;
+    const containerH = container.clientHeight;
+    const start = isBelow ? windowH - containerH : 0;
+    const end = (windowH - containerH) / 2;
+    const current = container.getClientRects()[0].y;
+    if (isBelow) {
+      if (current > end) {
+        image2.style.left = `${((current - end) / (start - end)) * 100}%`;
+        return;
+      }
+    } else {
+      if (current < end) {
+        image2.style.left = `${((end - current) / (end - start)) * 100}%`;
+        return;
+      }
+    }
+    window.removeEventListener("scroll", scrollListener);
+    adContainer.style.height = "calc(150vw - 1px)";
+    image2.style.left = "0";
+    gif.style.display = "block";
+  }
+
+  function openUrl() {
+    window.open(
+      "https://www.facebook.com/share/p/1JvJQVtKUi/?utm_source=Signin&utm_medium=Banner&utm_campaign=2025Cashback"
+    );
+  }
+</script>
