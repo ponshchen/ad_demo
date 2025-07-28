@@ -33,7 +33,7 @@
 
       #video {
         width: 100%;
-        height: 100%;
+        height: calc(100% + 1px);
         object-fit: cover;
       }
 
@@ -259,7 +259,7 @@
 
       slot.style.width = "100%";
       adWrapper.style.paddingBottom =
-        Math.floor((adImage2Wrapper.clientWidth / 0.7 / 640) * 600) + "px";
+        (adImage2Wrapper.clientWidth / 0.7 / 640) * 600 + "px";
       adBanner.style.top = slot.clientHeight + "px";
       adBanner.style.width = "100%";
       adBanner.style.height =
