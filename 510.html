@@ -176,10 +176,6 @@
       ) {
         isShown = true;
         window.removeEventListener("scroll", scrollListener);
-        setInterval(() => {
-          swiper.slideNext();
-          finger.style.opacity = "0";
-        }, 25000); // 速度在這裡，數字越小越快
       }
     }
 
