@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transformer</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+      #adContainer {
+        width: 100vw;
+        height: 150vw;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #banner {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #videoContainer {
+        width: 100vw;
+        height: 56.25vw;
+        position: relative;
+      }
+
+      #image {
+        width: 100%;
+      }
+
+      #coverContainer {
+        width: 100vw;
+        height: 93.75vw;
+        position: absolute;
+        bottom: 0;
+        left: -100vw;
+        transition: 0.5s;
+      }
+
+      .swiper-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .swiper-slide-img {
+        width: 100%;
+      }
+
+      #openButton {
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 20vw;
+      }
+
+      #backButton {
+        position: absolute;
+        left: 4px;
+        bottom: 4px;
+        width: 8vw;
+        z-index: 99;
+      }
+
+      #cover {
+        width: 100%;
+      }
+
+      #arrowLeft {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translate(0, -50%);
+        z-index: 99;
+        width: 10%;
+      }
+
+      #arrowRight {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translate(0, -50%);
+        z-index: 99;
+        width: 10%;
+      }
+
+      .swiper-pagination-bullet-active {
+        background-color: gray;
+      }
+
+      .bounce {
+        animation-duration: 1s;
+        /* 彈出來的速度，數字越小越快 */
+        animation-name: bounce;
+        animation-iteration-count: 3;
+        /* 彈出來的次數 */
+        animation-timing-function: ease;
+      }
+
+      @-webkit-keyframes bounce {
+        0% {
+          left: -100%;
+        }
+        50% {
+          left: -95%;
+          /* 彈出來多少，想要彈出來越多數字越接近0，0是完全出來的狀態 */
+        }
+        100% {
+          left: -100%;
+        }
+      }
+    </style>
+  </head>
+  <body style="margin: 0">
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <div style="width: 100%; position: relative">
+      <div id="adContainer">
+        <div id="banner">
+          <div id="videoContainer">
+            <video
+              muted
+              playsinline
+              autoplay
+              loop
+              style="width: 100%"
+              id="video"
+              onclick="openUrl()"
+            >
+              <source src="./images/514/video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <img
+              onclick="muteButtonOnClick()"
+              src="./images/mute.png"
+              style="
+                position: absolute;
+                bottom: 16px;
+                right: 10px;
+                height: 24px;
+                width: 24px;
+              "
+              id="muteButton"
+            />
+          </div>
+
+          <img
+            src="./images/514/banner.png"
+            alt=""
+            id="image"
+            onclick="openUrl()"
+          />
+        </div>
+        <div id="coverContainer">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img
+                  class="swiper-slide-img"
+                  src="./images/514/0.png"
+                  alt=""
+                  onclick="openUrl()"
+                />
+              </div>
+              <div class="swiper-slide">
+                <img
+                  class="swiper-slide-img"
+                  src="./images/514/1.png"
+                  alt=""
+                  onclick="openUrl()"
+                />
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+          <img
+            src="./images/514/arrowLeft.png"
+            id="arrowLeft"
+            alt=""
+            onclick="prev()"
+          />
+          <img
+            src="./images/514/arrowRight.png"
+            id="arrowRight"
+            alt=""
+            onclick="next()"
+          />
+          <img
+            src="./images/514/backButton.png"
+            alt=""
+            id="backButton"
+            onclick="closeAd()"
+          />
+          <img
+            src="./images/514/openButton.png"
+            alt=""
+            id="openButton"
+            onclick="openAd()"
+          />
+        </div>
+      </div>
+    </div>
+    <img src="./images/background2.png" style="width: 100vw" />
+  </body>
+</html>
+<script>
+  const container = document.getElementById("adContainer");
+  const coverContainer = document.getElementById("coverContainer");
+  const cover = document.getElementById("cover");
+  const coverCount = 2; // 產品圖數量
+  let count = 0;
+  var swiper = new Swiper(".swiper-container", {
+    loop: true,
+    speed: 0,
+    pagination: {
+      el: ".swiper-pagination",
+      type: "bullets",
+    },
+  });
+
+  window.addEventListener("scroll", scrollListener);
+
+  function scrollListener(event) {
+    if (
+      container.getClientRects()[0].y <
+      window.screen.height - container.clientHeight
+    ) {
+      window.removeEventListener("scroll", scrollListener);
+      coverContainer.className = "bounce";
+    }
+  }
+
+  function next() {
+    swiper.slideNext();
+  }
+
+  function prev() {
+    swiper.slidePrev();
+  }
+
+  function openAd() {
+    coverContainer.style.left = "0px";
+  }
+
+  function closeAd() {
+    coverContainer.style.left = "-100%";
+  }
+
+  function openUrl() {
+    window.open(
+      "https://www.mitsui-shopping-park.com.tw/lalaport/nangang/tw/edm.html?season=2&utm_source=Signin&utm_medium=CreativeAd&utm_campaign=grandopen2"
+    );
+  }
+
+  function muteButtonOnClick() {
+    const video = document.getElementById("video");
+    const muteButton = document.getElementById("muteButton");
+    video.muted = !video.muted;
+    muteButton.src = `./images/${video.muted ? "mute" : "volume"}.png`;
+  }
+</script>
