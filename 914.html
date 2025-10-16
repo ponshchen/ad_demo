@@ -1,85 +1,86 @@
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>content-gallery h5 template</title>
-  <style>
-    * {
-      margin: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>content-gallery h5 template</title>
+    <style>
+      * {
+        margin: 0;
+      }
 
-    body {
-      background-color: transparent;
-    }
+      body {
+        background-color: transparent;
+      }
 
-    #ad-wrapper {
-      position: relative;
-      width: 100%;
-    }
+      #ad-wrapper {
+        position: relative;
+        width: 100%;
+      }
 
-    #ad-wrapper video {
-      width: 100%;
-      height: auto;
-      cursor: pointer;
-      display: block;
-    }
+      #ad-wrapper video {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        display: block;
+      }
 
-    #muteButton {
-      position: absolute;
-      bottom: 33%;
-      left: 10px;
-      height: 20px;
-      width: 24px;
-      cursor: pointer;
-      display: none; /* 一開始隱藏 */
-    }
-  </style>
-</head>
-<body>
-  <img src="./images/background0.png" style="width: 100vw;" />
-  <img src="./images/background1.png" style="width: 100vw;" />
+      #muteButton {
+        position: absolute;
+        bottom: 33%;
+        left: 10px;
+        height: 20px;
+        width: 24px;
+        cursor: pointer;
+        display: none; /* 一開始隱藏 */
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
 
-  <div id="ad-wrapper" onclick="openUrl()">
-    <video id="adVideo" muted playsinline loop>
-      <source src="./images/914/1.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <div id="ad-wrapper" onclick="openUrl()">
+      <video id="adVideo" muted playsinline loop>
+        <source src="./images/914/1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
-    <!-- 靜音按鈕 -->
-    <img 
-      onclick="muteButtonOnClick(event)" 
-      src="./images/mute.png" 
-      id="muteButton" 
-    />
-  </div>
+      <!-- 靜音按鈕 -->
+      <img
+        onclick="muteButtonOnClick(event)"
+        src="./images/mute.png"
+        id="muteButton"
+      />
+    </div>
 
-  <img src="./images/background2.png" style="width: 100vw;" />
+    <img src="./images/background2.png" style="width: 100vw" />
 
-<script>
-  const video = document.getElementById('adVideo');
-  const muteButton = document.getElementById('muteButton');
+    <script>
+      const video = document.getElementById("adVideo");
+      const muteButton = document.getElementById("muteButton");
 
-  // 頁面載入後自動播放影片
-  window.addEventListener('load', () => {
-    video.play();
+      // 頁面載入後自動播放影片
+      window.addEventListener("load", () => {
+        video.play();
 
-    // 3 秒後顯示靜音按鈕
-    setTimeout(() => {
-      muteButton.style.display = 'block';
-    }, 3000);
-  });
+        // 3 秒後顯示靜音按鈕
+        setTimeout(() => {
+          muteButton.style.display = "block";
+        }, 3000);
+      });
 
-  // 點擊影片區塊開啟連結
-  function openUrl() {
-    window.open('https://www.uniprobiotics.com.tw/lp33');
-  }
+      // 點擊影片區塊開啟連結
+      function openUrl() {
+        window.open("https://www.uniprobiotics.com.tw/lp33");
+      }
 
-  // 靜音按鈕事件
-  function muteButtonOnClick(event) {
-    event.stopPropagation(); // 防止觸發 openUrl()
-    video.muted = !video.muted;
-  }
-</script>
-</body>
+      // 靜音按鈕事件
+      function muteButtonOnClick(event) {
+        event.stopPropagation(); // 防止觸發 openUrl()
+        video.muted = !video.muted;
+        muteButton.src = `./images/${video.muted ? "mute" : "volume"}.png`;
+      }
+    </script>
+  </body>
 </html>
