@@ -61,13 +61,20 @@
       const muteButton = document.getElementById("muteButton");
 
       // 頁面載入後自動播放影片
-      window.addEventListener("load", () => {
-        video.play();
+      window.addEventListener("scroll", (event) => {
+        const videoHeight = video.getBoundingClientRect().height;
+        const topValue = video.getBoundingClientRect().y;
+        const screenH = window.screen.height;
 
-        // 3 秒後顯示靜音按鈕
-        setTimeout(() => {
-          muteButton.style.display = "block";
-        }, 3000);
+        if (topValue < screenH - videoHeight) {
+          video.play();
+          console.log("play");
+
+          // 3 秒後顯示靜音按鈕
+          setTimeout(() => {
+            muteButton.style.display = "block";
+          }, 3000);
+        }
       });
 
       // 點擊影片區塊開啟連結
