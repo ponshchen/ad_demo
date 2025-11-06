@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Threads</title>
+    <style>
+      #adContainer {
+        width: 100vw;
+        height: 150vw;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #article {
+        width: 100vw;
+        height: 34.75vw;
+      }
+
+      #video {
+        width: 100vw;
+        height: 68.75vw;
+      }
+
+      #messagesContainer {
+        width: 100vw;
+        height: 37.5vw;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      #messages {
+        width: 100vw;
+        height: 75vw;
+        object-fit: cover;
+        transition: transform 0.2s ease-out;
+      }
+    </style>
+  </head>
+  <body style="margin: 0">
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <div style="width: 100%; position: relative">
+      <div id="adContainer">
+        <img src="./images/518/1.png" id="article" />
+        <video loop muted playsinline id="video" onclick="openUrl()">
+          <source src="./images/518/video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div id="messagesContainer">
+          <img src="./images/518/2.png" id="messages" />
+        </div>
+      </div>
+    </div>
+    <img src="./images/background2.png" style="width: 100vw" />
+  </body>
+</html>
+<script>
+  const container = document.getElementById("adContainer");
+  const video = document.getElementById("video");
+  let isOpened = false;
+
+  window.addEventListener("scroll", (event) => {
+    const videoHeight = video.getBoundingClientRect().height;
+    const topValue = video.getBoundingClientRect().y;
+    const screenH = window.screen.height;
+
+    if (!isOpened) {
+      if (topValue < screenH - videoHeight) {
+        isOpened = true;
+      }
+    } else {
+      if (
+        topValue < screenH - videoHeight / 2 &&
+        topValue > -(videoHeight / 2)
+      ) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+  });
+
+  function openUrl() {
+    window.open("https://www.google.com");
+  }
+
+  const messagesContainer = document.getElementById("messagesContainer");
+  const messages = document.getElementById("messages");
+
+  let startY = 0;
+  let isTouching = false;
+
+  messagesContainer.addEventListener("touchstart", (e) => {
+    startY = e.touches[0].clientY;
+    isTouching = true;
+  });
+
+  messagesContainer.addEventListener("touchmove", (e) => {
+    if (!isTouching) return;
+
+    const currentY = e.touches[0].clientY;
+    const diffY = currentY - startY;
+
+    // 滾動到頂時往下拉 or 滾到底時往上拉
+    if (
+      (messagesContainer.scrollTop <= 0 && diffY > 0) ||
+      (messagesContainer.scrollTop + messagesContainer.offsetHeight >=
+        messagesContainer.scrollHeight &&
+        diffY < 0)
+    ) {
+      e.preventDefault();
+      messages.style.transform = `translateY(${diffY / 2}px)`; // 阻尼感
+    }
+  });
+
+  messagesContainer.addEventListener("touchend", () => {
+    isTouching = false;
+    messages.style.transition = "transform 0.3s ease-out";
+    messages.style.transform = "translateY(0)";
+    setTimeout(() => {
+      messages.style.transition = "";
+    }, 300);
+  });
+</script>
