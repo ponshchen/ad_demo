@@ -17,7 +17,7 @@
 
       #article {
         width: 100vw;
-        height: 34.75vw;
+        height: 43.75vw;
       }
 
       #video {
@@ -38,6 +38,14 @@
         object-fit: cover;
         transition: transform 0.2s ease-out;
       }
+
+      #muteButton {
+        position: absolute;
+        top: 86vw;
+        left: 84vw;
+        width: 5vw;
+        height: 5vw;
+      }
     </style>
   </head>
   <body style="margin: 0">
@@ -45,7 +53,7 @@
     <img src="./images/background1.png" style="width: 100vw" />
     <div style="width: 100%; position: relative">
       <div id="adContainer">
-        <img src="./images/518/1.png" id="article" />
+        <img src="./images/518/1.png" id="article" onclick="openUrl()" />
         <video loop muted playsinline id="video" onclick="openUrl()">
           <source src="./images/518/video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -53,6 +61,11 @@
         <div id="messagesContainer">
           <img src="./images/518/2.png" id="messages" />
         </div>
+        <img
+          src="./images/mute.png"
+          id="muteButton"
+          onclick="muteButtonOnClick()"
+        />
       </div>
     </div>
     <img src="./images/background2.png" style="width: 100vw" />
@@ -125,4 +138,10 @@
       messages.style.transition = "";
     }, 300);
   });
+
+  function muteButtonOnClick() {
+    const muteButton = document.getElementById("muteButton");
+    video.muted = !video.muted;
+    muteButton.src = `./images/${video.muted ? "mute" : "volume"}.png`;
+  }
 </script>
