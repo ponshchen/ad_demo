@@ -4,12 +4,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>content-gallery h5 template</title>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/swiper/swiper-bundle.min.css"
-    />
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
     <style>
       * {
         margin: 0;
@@ -30,6 +24,7 @@
         position: absolute;
         top: 0;
         left: 0;
+        width: 100%;
       }
 
       #yes {
@@ -64,35 +59,57 @@
         width: 100%;
       }
 
-      .swiper-container {
-        width: 100%;
-        height: 150vw;
-      }
-
-      .swiper-slide {
-        overflow: visible !important;
-      }
-
-      .swiper-slide-shadow {
-        opacity: 1 !important;
-        background: transparent !important;
-        box-shadow: 15px 0px 5px 0px rgba(0, 0, 0, 0.4) !important;
-      }
-
-      .slide-img {
-        width: 100%;
-        height: 150vw;
-      }
-
       @keyframes move {
         0% {
-          left: 55%;
+          transform: translateX(0px) translateY(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateX(-45px) translateY(15px) rotate(4.5deg);
         }
         50% {
-          left: 45%;
+          transform: translateX(0px) translateY(0px) rotate(0deg);
+        }
+        75% {
+          transform: translateX(45px) translateY(15px) rotate(-4.5deg);
         }
         100% {
-          left: 55%;
+          transform: translateX(0px) translateY(0px) rotate(0deg);
+        }
+      }
+
+      @keyframes yes {
+        0% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1);
+        }
+        75% {
+          transform: scale(1.5);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes no {
+        0% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.5);
+        }
+        50% {
+          transform: scale(1);
+        }
+        75% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1);
         }
       }
     </style>
@@ -101,6 +118,32 @@
     <img src="./images/background0.png" style="width: 100vw" />
     <img src="./images/background1.png" style="width: 100vw" />
     <div class="banner" id="banner">
+      <img
+        src="./images/534/1.png"
+        class="card"
+        onclick="openUrl()"
+        style="z-index: 99999"
+        id="firstCard"
+      />
+      <img
+        src="./images/534/2.png"
+        class="card"
+        onclick="openUrl()"
+        style="z-index: 99998"
+      />
+      <img
+        src="./images/534/3.png"
+        class="card"
+        onclick="openUrl()"
+        style="z-index: 99997"
+      />
+      <img
+        src="./images/534/4.png"
+        class="card"
+        onclick="openUrl()"
+        style="z-index: 99996"
+      />
+      <!-- 從這裡加更多素材 -->
       <img src="./images/534/no.png" id="no" />
       <img src="./images/534/yes.png" id="yes" />
       <div id="likeContainer">
@@ -118,103 +161,154 @@
     const no = document.getElementById("no");
     const likeContainer = document.getElementById("likeContainer");
     const like = document.getElementById("like");
-    const cardsData = [
-      '<img src="./images/534/1.png" class="slide-img" onclick="openUrl()" />',
-      '<img src="./images/534/2.png" class="slide-img" onclick="openUrl()" />',
-      '<img src="./images/534/3.png" class="slide-img" onclick="openUrl()" />',
-      '<img src="./images/534/4.png" class="slide-img" onclick="openUrl()" />',
-    ];
-    let maxZindex = 99999;
+    let maxZindex = 99990;
+    let isDragging = false;
+    let startX = 0;
+    let currentX = 0;
+    var supportsPassive = false;
+    try {
+      window.addEventListener(
+        "test",
+        null,
+        Object.defineProperty({}, "passive", {
+          get: function () {
+            supportsPassive = true;
+          },
+        })
+      );
+    } catch (e) {}
+    var wheelOpt = supportsPassive ? { passive: false } : false;
+    var wheelEvent =
+      "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
+    const moveSpeed = 2; // 一開始左右晃時間，單位秒，代表多久把左右晃完
+    const likeScale = 1.5; // 愛心叉叉放大程度
+    const videoTime = 4.3; // like 完的影片顯示到消失的時間，單位秒
 
-    cardsData.reverse().forEach((data) => {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      card.style.zIndex = maxZindex;
-      maxZindex -= 1;
-      card.innerHTML = data;
-      container.appendChild(card);
+    function preventDefault(e) {
+      e.preventDefault();
+    }
 
-      let isDragging = false;
-      let startX = 0;
-      let currentX = 0;
+    function preventDefaultForScrollKeys(e) {
+      if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+      }
+    }
 
-      const onStart = (e) => {
-        isDragging = true;
-        startX = e.type.includes("mouse") ? e.pageX : e.touches[0].pageX;
-        card.style.transition = "none";
-      };
+    // call this to Disable
+    function disableScroll() {
+      window.addEventListener("DOMMouseScroll", preventDefault, false); // older FF
+      window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+      window.addEventListener("touchmove", preventDefault, wheelOpt); // mobile
+      window.addEventListener("keydown", preventDefaultForScrollKeys, false);
+    }
 
-      const onMove = (e) => {
-        if (!isDragging) return;
-        currentX =
-          (e.type.includes("mouse") ? e.pageX : e.touches[0].pageX) - startX;
+    // call this to Enable
+    function enableScroll() {
+      window.removeEventListener("DOMMouseScroll", preventDefault, false);
+      window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+      window.removeEventListener("touchmove", preventDefault, wheelOpt);
+      window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
+    }
 
-        const rotate = currentX / 10; // 旋轉角度
-        card.style.transform = `translateX(${currentX}px) translateY(${Math.abs(
-          currentX / 3
-        )}px) rotate(${rotate}deg)`;
+    const onStart = (e) => {
+      isDragging = true;
+      startX = e.type.includes("mouse") ? e.pageX : e.touches[0].pageX;
+      e.target.style.transition = "none";
+      disableScroll();
+    };
 
-        if (currentX > 0) {
-          yes.style.transform = "scale(1.25)";
-          no.style.transform = "";
-        } else {
-          no.style.transform = "scale(1.25)";
-          yes.style.transform = "";
-        }
-      };
+    const onMove = (e) => {
+      if (!isDragging) return;
+      currentX =
+        (e.type.includes("mouse") ? e.pageX : e.touches[0].pageX) - startX;
 
-      const onEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        card.style.transition = "transform 0.8s ease";
+      const rotate = currentX / 10; // 旋轉角度
+      e.target.style.transform = `translateX(${currentX}px) translateY(${Math.abs(
+        currentX / 3
+      )}px) rotate(${rotate}deg)`;
 
-        if (Math.abs(currentX) > 120) {
-          // 閾值
-          const direction = currentX > 0 ? 1 : -1;
-          card.style.transform = `translateX(${
-            direction * 300
-          }%) translateY(100%) rotate(${direction * 45}deg)`;
-          no.style.transform = "";
-          yes.style.transform = "";
+      if (currentX > 0) {
+        yes.style.transform = `scale(${likeScale})`;
+        no.style.transform = "";
+      } else {
+        no.style.transform = `scale(${likeScale})`;
+        yes.style.transform = "";
+      }
+    };
+
+    const onEnd = (e) => {
+      enableScroll();
+      if (!isDragging) return;
+      isDragging = false;
+      e.target.style.transition = "transform 0.8s ease";
+
+      if (Math.abs(currentX) > 120) {
+        const direction = currentX > 0 ? 1 : -1;
+        e.target.style.transform = `translateX(${
+          direction * 300
+        }%) translateY(100%) rotate(${direction * 45}deg)`;
+        no.style.transform = "";
+        yes.style.transform = "";
+
+        setTimeout(() => {
+          e.target.style.transform = "";
+          e.target.style.zIndex = maxZindex;
+          maxZindex -= 1;
+        }, 800);
+
+        if (direction > 0) {
+          likeContainer.style.zIndex = 100000;
+          likeContainer.style.opacity = 1;
+          like.play();
 
           setTimeout(() => {
-            card.style.transform = "";
-            card.style.zIndex = maxZindex;
-            maxZindex -= 1;
-          }, 800);
+            likeContainer.style.opacity = 0;
+          }, videoTime * 1000);
 
-          if (direction > 0) {
-            likeContainer.style.zIndex = 100000;
-            likeContainer.style.opacity = 1;
-            like.play();
-
-            setTimeout(() => {
-              likeContainer.style.opacity = 0;
-            }, 3200);
-
-            setTimeout(() => {
-              likeContainer.style.zIndex = -1;
-              like.pause();
-              like.currentTime = 0;
-              like.load();
-            }, 4000);
-          }
-        } else {
-          card.style.transform = "translateX(0) rotate(0deg)";
-          no.style.transform = "";
-          yes.style.transform = "";
+          setTimeout(() => {
+            likeContainer.style.zIndex = -1;
+            like.pause();
+            like.currentTime = 0;
+            like.load();
+          }, (videoTime + 500) * 1000);
         }
-      };
+      } else {
+        e.target.style.transform = "translateX(0) rotate(0deg)";
+        no.style.transform = "";
+        yes.style.transform = "";
+      }
+    };
 
-      card.addEventListener("mousedown", onStart);
-      card.addEventListener("mousemove", onMove);
-      card.addEventListener("mouseup", onEnd);
-      card.addEventListener("mouseleave", onEnd);
+    const scrolling = () => {
+      if (container.getBoundingClientRect().y < window.screen.height) {
+        window.removeEventListener("scroll", scrolling);
+        const firstCard = document.getElementById("firstCard");
+        firstCard.style.animation = `move ${moveSpeed}s linear`;
+        firstCard.style["animation-iteration-count"] = "1";
+        yes.style.animation = `yes ${moveSpeed}s linear`;
+        yes.style["animation-iteration-count"] = "1";
+        no.style.animation = `no ${moveSpeed}s linear`;
+        no.style["animation-iteration-count"] = "1";
+        setTimeout(() => {
+          Array.prototype.map.call(
+            document.getElementsByClassName("card"),
+            (card) => {
+              card.addEventListener("mousedown", onStart);
+              card.addEventListener("mousemove", onMove);
+              card.addEventListener("mouseup", onEnd);
+              card.addEventListener("mouseleave", onEnd);
 
-      card.addEventListener("touchstart", onStart);
-      card.addEventListener("touchmove", onMove);
-      card.addEventListener("touchend", onEnd);
-    });
+              card.addEventListener("touchstart", onStart);
+              card.addEventListener("touchmove", onMove);
+              card.addEventListener("touchend", onEnd);
+            }
+          );
+        }, moveSpeed * 1000);
+      }
+    };
+
+    window.addEventListener("scroll", scrolling);
 
     function openUrl() {
       window.open(
