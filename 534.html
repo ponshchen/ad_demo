@@ -271,7 +271,7 @@
             like.pause();
             like.currentTime = 0;
             like.load();
-          }, (videoTime + 500) * 1000);
+          }, videoTime * 1000 + 500);
         }
       } else {
         e.target.style.transform = "translateX(0) rotate(0deg)";
