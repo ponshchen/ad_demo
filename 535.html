@@ -1,0 +1,133 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>content-gallery h5 template</title>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+      }
+
+      .banner {
+        position: fixed;
+        width: 100vw;
+        bottom: 0;
+        top: 0;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .videoContainer {
+        width: 100vw;
+        height: 213vw;
+        max-height: 100vh;
+        position: relative;
+      }
+
+      #video2 {
+        display: none;
+      }
+
+      #video3 {
+        display: none;
+      }
+
+      #close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        z-index: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <div class="banner" id="banner">
+      <img src="./images/close.png" alt="" id="close" onclick="closeAd()" />
+      <div class="videoContainer">
+        <video autoplay muted playsinline style="width: 100%" id="video1">
+          <source src="./images/535/1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <video muted playsinline style="width: 100%" id="video2">
+          <source src="./images/535/2.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <video muted playsinline style="width: 100%" id="video3">
+          <source src="./images/535/3.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+    <img src="./images/background2.png" style="width: 100vw" />
+  </body>
+  <script>
+    const banner = document.getElementById("banner");
+    const video1 = document.getElementById("video1");
+    const video2 = document.getElementById("video2");
+    const video3 = document.getElementById("video3");
+    let loopTimes = 1;
+    let clicked = false;
+    const loopLimits = 2; // 如果用戶在第二 cut 循環幾次沒有手動點，就自動切下一 cut
+    const smoothSwitch = true; // 用戶點擊後，是否要讓第二 cut 完整播完再進下一 cut
+
+    video1.addEventListener("ended", (event) => {
+      video2.play();
+      video2.style.display = "block";
+      video1.style.display = "none";
+      video2.addEventListener(
+        "touchstart",
+        () => {
+          userClick();
+        },
+        false
+      );
+    });
+
+    video2.addEventListener("ended", (event) => {
+      if (clicked || loopTimes === loopLimits) {
+        switchToThirdCut();
+        return;
+      }
+      loopTimes += 1;
+      video2.play();
+    });
+
+    function switchToThirdCut() {
+      video2.remove();
+      video3.play();
+      video3.style.display = "block";
+      setTimeout(() => {
+        video3.onclick = openAd;
+      }, 100);
+    }
+
+    function userClick() {
+      if (!smoothSwitch) {
+        switchToThirdCut();
+        return;
+      }
+      if (clicked) return;
+      clicked = true;
+    }
+
+    function openAd() {
+      window.open("https://www.google.com");
+    }
+
+    function closeAd() {
+      banner.remove();
+    }
+  </script>
+</html>
