@@ -57,6 +57,32 @@
         height: 36px;
         z-index: 5;
       }
+
+      #circle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 50vw;
+        height: 50vw;
+        margin-left: -25vw;
+        margin-top: -25vw;
+        border: 2px dashed #999;
+        border-radius: 50%;
+        z-index: 100;
+        display: none;
+      }
+
+      #spoon {
+        width: 60px;
+        height: 60px;
+        background: hotpink;
+        position: fixed; /* 或 absolute */
+        left: calc(50% - 30px);
+        top: calc(50% - 30px);
+        border-radius: 12px;
+        pointer-events: none; /* 不擋觸控 */
+        z-index: 100;
+      }
     </style>
   </head>
   <body>
@@ -69,7 +95,7 @@
           <source src="./images/535/1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <video muted playsinline preload id="video2">
+        <video muted playsinline preload loop id="video2">
           <source src="./images/535/2.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -77,6 +103,9 @@
           <source src="./images/535/3.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+        <div id="circle">
+          <div id="spoon"></div>
+        </div>
       </div>
     </div>
     <img src="./images/background2.png" style="width: 100vw" />
@@ -86,30 +115,36 @@
     const video1 = document.getElementById("video1");
     const video2 = document.getElementById("video2");
     const video3 = document.getElementById("video3");
-    let loopTimes = 1;
-    let clicked = false;
-    const loopLimits = 2; // 如果用戶在第二 cut 循環幾次沒有手動點，就自動切下一 cut
-    const smoothSwitch = true; // 用戶點擊後，是否要讓第二 cut 完整播完再進下一 cut
+    const spoon = document.getElementById("spoon");
+    const circle = document.getElementById("circle");
+    const RADIUS = window.screen.width / 4;
+    const timer = 5; // 進入第二 cut 之後多久自動切換到第三 cut
 
     video1.addEventListener("ended", (event) => {
-      video2.play();
       video2.style.display = "block";
-      video2.addEventListener(
-        "touchstart",
-        () => {
-          userClick();
-        },
-        false
-      );
-    });
+      circle.style.display = "block";
+      banner.addEventListener("touchmove", function (e) {
+        // 取得第一根手指
+        const touch = e.touches[0];
 
-    video2.addEventListener("ended", (event) => {
-      if (clicked || loopTimes === loopLimits) {
-        switchToThirdCut();
-        return;
-      }
-      loopTimes += 1;
-      video2.play();
+        const x = touch.clientX;
+        const y = touch.clientY;
+
+        moveSpoon(x, y);
+      });
+      banner.addEventListener("touchstart", () => video2.play());
+      banner.addEventListener("touchend", () => video2.pause());
+      setTimeout(() => {
+        video3.play();
+        video3.style.display = "block";
+        setTimeout(() => {
+          video3.onclick = openAd;
+          video1.remove();
+          video2.remove();
+          spoon.remove();
+          circle.remove();
+        }, 100);
+      }, timer * 1000);
     });
 
     function switchToThirdCut() {
@@ -122,21 +157,39 @@
       }, 100);
     }
 
-    function userClick() {
-      if (!smoothSwitch) {
-        switchToThirdCut();
-        return;
-      }
-      if (clicked) return;
-      clicked = true;
-    }
-
     function openAd() {
       window.open("https://www.google.com");
     }
 
     function closeAd() {
       banner.remove();
+    }
+
+    function getCenter() {
+      return {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+      };
+    }
+
+    function moveSpoon(x, y) {
+      const center = getCenter();
+      const dx = x - center.x;
+      const dy = y - center.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      let finalX = x;
+      let finalY = y;
+
+      // 超出圓形 → 拉回圓周
+      if (distance > RADIUS) {
+        const ratio = RADIUS / distance;
+        finalX = center.x + dx * ratio;
+        finalY = center.y + dy * ratio;
+      }
+
+      spoon.style.left = finalX - spoon.clientWidth / 2 + "px";
+      spoon.style.top = finalY - spoon.clientWidth / 2 + "px";
     }
   </script>
 </html>
