@@ -34,10 +34,19 @@
 
       #video2 {
         display: none;
+        z-index: 2;
       }
 
       #video3 {
         display: none;
+        z-index: 3;
+      }
+
+      video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
       }
 
       #close {
@@ -56,15 +65,15 @@
     <div class="banner" id="banner">
       <img src="./images/close.png" alt="" id="close" onclick="closeAd()" />
       <div class="videoContainer">
-        <video autoplay muted playsinline style="width: 100%" id="video1">
+        <video autoplay muted playsinline id="video1">
           <source src="./images/535/1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <video muted playsinline style="width: 100%" id="video2">
+        <video muted playsinline preload id="video2">
           <source src="./images/535/2.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <video muted playsinline style="width: 100%" id="video3">
+        <video muted playsinline preload id="video3">
           <source src="./images/535/3.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -85,7 +94,6 @@
     video1.addEventListener("ended", (event) => {
       video2.play();
       video2.style.display = "block";
-      video1.style.display = "none";
       video2.addEventListener(
         "touchstart",
         () => {
@@ -106,6 +114,7 @@
 
     function switchToThirdCut() {
       video2.remove();
+      video1.remove();
       video3.play();
       video3.style.display = "block";
       setTimeout(() => {
