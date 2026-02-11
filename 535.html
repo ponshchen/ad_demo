@@ -123,7 +123,6 @@
       video2.style.display = "block";
       circle.style.display = "block";
       spoon.style.display = "block";
-      video1.remove();
       video2.play();
       video2.pause();
       banner.addEventListener("touchmove", function (e) {
@@ -142,6 +141,7 @@
         setTimeout(() => {
           video3.onclick = openAd;
           video2.remove();
+          video1.remove();
         }, 100);
       }, timer * 1000);
     });
