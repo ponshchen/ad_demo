@@ -25,7 +25,7 @@
         justify-content: center;
       }
 
-      .videoContainer {
+      #videoContainer {
         width: 100vw;
         height: 213vw;
         max-height: 100vh;
@@ -60,28 +60,23 @@
 
       #circle {
         position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 50vw;
-        height: 50vw;
-        margin-left: -25vw;
-        margin-top: -25vw;
-        border: 2px dashed #999;
+        left: 32vw;
+        top: 125vw;
+        width: 36vw;
+        height: 36vw;
         border-radius: 50%;
         z-index: 100;
         display: none;
       }
 
       #spoon {
-        width: 60px;
-        height: 60px;
-        background: hotpink;
-        position: fixed; /* 或 absolute */
-        left: calc(50% - 30px);
-        top: calc(50% - 30px);
-        border-radius: 12px;
-        pointer-events: none; /* 不擋觸控 */
+        width: 53.5vw;
+        height: 53.5vw;
+        position: absolute;
+        left: calc(50vw - 26.75vw);
+        top: calc(145vw - 26.75vw);
         z-index: 100;
+        display: none;
       }
     </style>
   </head>
@@ -90,7 +85,7 @@
     <img src="./images/background1.png" style="width: 100vw" />
     <div class="banner" id="banner">
       <img src="./images/close.png" alt="" id="close" onclick="closeAd()" />
-      <div class="videoContainer">
+      <div id="videoContainer">
         <video autoplay muted playsinline id="video1">
           <source src="./images/535/1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -103,9 +98,8 @@
           <source src="./images/535/3.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <div id="circle">
-          <div id="spoon"></div>
-        </div>
+        <div id="circle"></div>
+        <img src="./images/535/spoon.png" alt="" id="spoon" />
       </div>
     </div>
     <img src="./images/background2.png" style="width: 100vw" />
@@ -117,45 +111,34 @@
     const video3 = document.getElementById("video3");
     const spoon = document.getElementById("spoon");
     const circle = document.getElementById("circle");
-    const RADIUS = window.screen.width / 4;
+    const videoContainer = document.getElementById("videoContainer");
+    const RADIUS = window.screen.width * 0.18;
     const timer = 5; // 進入第二 cut 之後多久自動切換到第三 cut
 
     video1.addEventListener("ended", (event) => {
       video2.style.display = "block";
       circle.style.display = "block";
+      spoon.style.display = "block";
       banner.addEventListener("touchmove", function (e) {
-        // 取得第一根手指
         const touch = e.touches[0];
-
         const x = touch.clientX;
         const y = touch.clientY;
-
         moveSpoon(x, y);
       });
       banner.addEventListener("touchstart", () => video2.play());
       banner.addEventListener("touchend", () => video2.pause());
       setTimeout(() => {
+        spoon.remove();
+        circle.remove();
         video3.play();
         video3.style.display = "block";
         setTimeout(() => {
           video3.onclick = openAd;
           video1.remove();
           video2.remove();
-          spoon.remove();
-          circle.remove();
         }, 100);
       }, timer * 1000);
     });
-
-    function switchToThirdCut() {
-      video2.remove();
-      video1.remove();
-      video3.play();
-      video3.style.display = "block";
-      setTimeout(() => {
-        video3.onclick = openAd;
-      }, 100);
-    }
 
     function openAd() {
       window.open("https://www.google.com");
@@ -166,9 +149,11 @@
     }
 
     function getCenter() {
+      const circleRects = circle.getClientRects()[0];
+      const circleWidth = circleRects.width;
       return {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        x: circleRects.left + circleWidth / 2,
+        y: circleRects.top + circleWidth / 2,
       };
     }
 
@@ -181,15 +166,16 @@
       let finalX = x;
       let finalY = y;
 
-      // 超出圓形 → 拉回圓周
       if (distance > RADIUS) {
         const ratio = RADIUS / distance;
         finalX = center.x + dx * ratio;
         finalY = center.y + dy * ratio;
       }
 
-      spoon.style.left = finalX - spoon.clientWidth / 2 + "px";
-      spoon.style.top = finalY - spoon.clientWidth / 2 + "px";
+      const spoonWidth = spoon.getClientRects()[0].width;
+      spoon.style.left = finalX - spoonWidth / 2 + "px";
+      spoon.style.top =
+        finalY - videoContainer.getClientRects()[0].top - spoonWidth / 2 + "px";
     }
   </script>
 </html>
