@@ -32,6 +32,10 @@
         position: relative;
       }
 
+      #video1 {
+        z-index: 1;
+      }
+
       #video2 {
         display: none;
         z-index: 2;
@@ -120,6 +124,8 @@
       circle.style.display = "block";
       spoon.style.display = "block";
       video1.remove();
+      video2.play();
+      video2.pause();
       banner.addEventListener("touchmove", function (e) {
         const touch = e.touches[0];
         const x = touch.clientX;
