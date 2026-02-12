@@ -74,11 +74,11 @@
       }
 
       #spoon {
-        width: 53.5vw;
-        height: 53.5vw;
+        width: 68vw;
+        height: 68vw;
         position: absolute;
-        left: calc(50vw - 26.75vw);
-        top: calc(145vw - 26.75vw);
+        left: calc(57vw - 34vw);
+        top: calc(155vw - 34vw);
         z-index: 100;
         display: none;
       }
@@ -94,12 +94,8 @@
           <source src="./images/535/1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <video muted playsinline preload loop id="video2">
+        <video muted playsinline preload id="video2">
           <source src="./images/535/2.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <video muted playsinline preload id="video3">
-          <source src="./images/535/3.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div id="circle"></div>
@@ -112,7 +108,6 @@
     const banner = document.getElementById("banner");
     const video1 = document.getElementById("video1");
     const video2 = document.getElementById("video2");
-    const video3 = document.getElementById("video3");
     const spoon = document.getElementById("spoon");
     const circle = document.getElementById("circle");
     const videoContainer = document.getElementById("videoContainer");
@@ -123,26 +118,44 @@
       video2.style.display = "block";
       circle.style.display = "block";
       spoon.style.display = "block";
-      video2.play();
-      video2.pause();
-      banner.addEventListener("touchmove", function (e) {
+
+      function bannerTouchmove(e) {
         const touch = e.touches[0];
         const x = touch.clientX;
         const y = touch.clientY;
         moveSpoon(x, y);
-      });
-      banner.addEventListener("touchstart", () => video2.play());
-      banner.addEventListener("touchend", () => video2.pause());
+      }
+
+      function bannerTouchstart() {
+        video2.play();
+      }
+
+      function bannerTouchend() {
+        video2.pause();
+      }
+
+      function unlockAudio() {
+        video2.muted = false;
+
+        video2.play().catch((err) => {
+          video2.muted = true;
+        });
+      }
+
+      banner.addEventListener("touchmove", bannerTouchmove, { passive: false });
+      banner.addEventListener("touchstart", bannerTouchstart);
+      banner.addEventListener("touchend", bannerTouchend);
+      banner.addEventListener("pointerdown", unlockAudio, { once: true });
+
       setTimeout(() => {
+        video2.currentTime = timer;
+        video2.play();
         spoon.remove();
         circle.remove();
-        video3.play();
-        video3.style.display = "block";
-        setTimeout(() => {
-          video3.onclick = openAd;
-          video2.remove();
-          video1.remove();
-        }, 100);
+        video2.onclick = openAd;
+        banner.removeEventListener("touchmove", bannerTouchmove);
+        banner.removeEventListener("touchstart", bannerTouchstart);
+        banner.removeEventListener("touchend", bannerTouchend);
       }, timer * 1000);
     });
 
