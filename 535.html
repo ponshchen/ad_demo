@@ -118,7 +118,11 @@
       video2.style.display = "block";
       circle.style.display = "block";
       spoon.style.display = "block";
-      video1.remove();
+      video2.play();
+      video2.pause();
+      setTimeout(() => {
+        video1.remove();
+      }, 100);
 
       function bannerTouchmove(e) {
         const touch = e.touches[0];
