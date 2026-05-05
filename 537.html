@@ -25,41 +25,28 @@
 
       .element {
         position: absolute;
-      }
-
-      .element p {
         color: white;
-        position: absolute;
-        right: 20%;
-        top: 50%;
-        transform: translate(0, -50%);
-        font-size: 2rem;
         font-weight: bold;
       }
 
-      .element img {
-        width: 100%;
-        display: none;
-      }
-
       #element1 {
-        width: 39vw;
-        top: 54%;
-        left: 7%;
-        transform: perspective(58px) rotateX(0deg) rotateY(-4deg) skewX(-11deg);
+        top: 55%;
+        left: 27.5%;
+        font-size: 2rem;
+        transform: perspective(58px) rotateX(0deg) rotateY(-4deg) skewX(-18deg);
       }
 
       #element2 {
-        width: 39vw;
-        top: 66%;
-        right: 3%;
-        transform: perspective(89px) rotateX(0deg) rotateY(5deg) skewX(12deg);
+        top: 65%;
+        right: 11%;
+        font-size: 1.7rem;
+        transform: perspective(89px) rotateX(10deg) rotateY(-2deg) skewX(15deg);
       }
 
       #element3 {
-        width: 41vw;
-        top: 42.5%;
-        left: 42%;
+        top: 43.3%;
+        right: 24.5%;
+        font-size: 2rem;
       }
 
       .vanish {
@@ -87,22 +74,18 @@
         <source src="./images/537/background.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div id="element1" class="element">
-        <img src="" alt="" id="gif1" />
-        <p id="counter1"></p>
-      </div>
-      <div id="element2" class="element">
-        <img src="" alt="" id="gif2" />
-        <p id="counter2"></p>
-      </div>
-      <div id="element3" class="element">
-        <img src="" alt="" id="gif3" />
-        <p id="counter3"></p>
-      </div>
+      <div id="element1" class="element"></div>
+      <div id="element2" class="element"></div>
+      <div id="element3" class="element"></div>
     </div>
     <img src="./images/background2.png" style="width: 100vw" />
   </body>
   <script>
+    const video = document.getElementById("background");
+    let lastTime = -1;
+    let element1Shown = false;
+    let element2Shown = false;
+    let element3Shown = false;
     const numbers = Array.from(
       { length: 3 },
       () => Math.floor(Math.random() * 10) + 90
@@ -135,42 +118,39 @@
       }, 200);
     }
 
-    const img1 = document.getElementById("gif1");
-    img1.src = "./images/537/1.gif";
-    img1.style.display = "block";
-    setTimeout(() => {
-      animateCounter("counter1", numbers[0]);
-      setTimeout(() => {
-        const element1 = document.getElementById("element1");
-        vanish(element1);
-      }, 1700);
-    }, 500);
+    function trackTime() {
+      const { currentTime } = video;
+      if (currentTime !== lastTime) {
+        lastTime = currentTime;
+        if (!element1Shown && currentTime > 0.35) {
+          animateCounter("element1", numbers[0]);
+          setTimeout(() => {
+            const element1 = document.getElementById("element1");
+            vanish(element1);
+          }, 2000);
+          element1Shown = true;
+        }
+        if (!element2Shown && currentTime > 0.38) {
+          animateCounter("element2", numbers[1]);
+          setTimeout(() => {
+            const element2 = document.getElementById("element2");
+            vanish(element2);
+          }, 1970);
+          element2Shown = true;
+        }
+        if (!element3Shown && currentTime > 2.4) {
+          animateCounter("element3", numbers[2]);
+          setTimeout(() => {
+            const element3 = document.getElementById("element3");
+            vanish(element3);
+          }, 2300);
+          element3Shown = true;
+        }
+      }
+      requestAnimationFrame(trackTime);
+    }
 
-    setTimeout(() => {
-      const img2 = document.getElementById("gif2");
-      img2.src = "./images/537/2.gif";
-      img2.style.display = "block";
-      setTimeout(() => {
-        animateCounter("counter2", numbers[1]);
-        setTimeout(() => {
-          const element2 = document.getElementById("element2");
-          vanish(element2);
-        }, 1500);
-      }, 500);
-    }, 200);
-
-    setTimeout(() => {
-      const img3 = document.getElementById("gif3");
-      img3.src = "./images/537/3.gif";
-      img3.style.display = "block";
-      setTimeout(() => {
-        animateCounter("counter3", numbers[2]);
-        setTimeout(() => {
-          const element3 = document.getElementById("element3");
-          vanish(element3);
-        }, 2100);
-      }, 700);
-    }, 2000);
+    requestAnimationFrame(trackTime);
 
     function openUrl(url) {
       window.open(url);
