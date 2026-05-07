@@ -30,23 +30,23 @@
       }
 
       #element1 {
-        top: 55%;
-        left: 27.5%;
-        font-size: 2rem;
-        transform: perspective(58px) rotateX(0deg) rotateY(-4deg) skewX(-18deg);
+        top: 56.6%;
+        left: 26.5%;
+        font-size: 1.2rem;
+        transform: rotate(3deg);
       }
 
       #element2 {
-        top: 65%;
-        right: 11%;
-        font-size: 1.7rem;
-        transform: perspective(89px) rotateX(10deg) rotateY(-2deg) skewX(15deg);
+        top: 66.1%;
+        right: 10.5%;
+        font-size: 1.1rem;
+        transform: rotate(-5deg);
       }
 
       #element3 {
-        top: 43.3%;
-        right: 24.5%;
-        font-size: 2rem;
+        top: 44.2%;
+        right: 22.5%;
+        font-size: 1.5rem;
       }
 
       .vanish {
@@ -63,6 +63,15 @@
           transform: translateY(36px) scaleX(0.2);
           opacity: 0;
         }
+      }
+
+      @font-face {
+        font-family: "MyFont";
+        src: url("./images/537/MYingHeiHK-W8.ttf") format("truetype");
+      }
+
+      body {
+        font-family: "MyFont", sans-serif;
       }
     </style>
   </head>
@@ -86,10 +95,21 @@
     let element1Shown = false;
     let element2Shown = false;
     let element3Shown = false;
-    const numbers = Array.from(
-      { length: 3 },
-      () => Math.floor(Math.random() * 10) + 90
+    const numbers = Array.from({ length: 2 }, () =>
+      parseFloat((Math.random() * 10 + 90).toFixed(1))
     );
+
+    function checkVideo() {
+      const videoY = video.getClientRects()[0].y;
+      if (
+        videoY < -(video.clientHeight / 2) ||
+        videoY > window.screen.height - video.clientHeight / 2
+      ) {
+        video.pause();
+      } else {
+        video.play();
+      }
+    }
 
     function animateCounter(elementId, target, duration = 1000) {
       const el = document.getElementById(elementId);
@@ -99,7 +119,7 @@
         if (!startTime) startTime = currentTime;
 
         const progress = Math.min((currentTime - startTime) / duration, 1);
-        const value = Math.floor(progress * target);
+        const value = (progress * target).toFixed(1);
 
         el.textContent = value;
 
@@ -139,7 +159,10 @@
           element2Shown = true;
         }
         if (!element3Shown && currentTime > 2.4) {
-          animateCounter("element3", numbers[2]);
+          animateCounter(
+            "element3",
+            ((numbers[0] + numbers[1]) / 2).toFixed(1)
+          );
           setTimeout(() => {
             const element3 = document.getElementById("element3");
             vanish(element3);
