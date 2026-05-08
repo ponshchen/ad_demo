@@ -99,17 +99,20 @@
       parseFloat((Math.random() * 10 + 90).toFixed(1))
     );
 
-    function checkVideo() {
-      const videoY = video.getClientRects()[0].y;
+    window.addEventListener("scroll", (event) => {
+      const videoHeight = video.getBoundingClientRect().height;
+      const topValue = video.getBoundingClientRect().y;
+      const screenH = window.screen.height;
+
       if (
-        videoY < -(video.clientHeight / 2) ||
-        videoY > window.screen.height - video.clientHeight / 2
+        topValue < screenH - videoHeight / 2 &&
+        topValue > -(videoHeight / 2)
       ) {
-        video.pause();
-      } else {
         video.play();
+      } else {
+        video.pause();
       }
-    }
+    });
 
     function animateCounter(elementId, target, duration = 1000) {
       const el = document.getElementById(elementId);
