@@ -1,0 +1,55 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>content-gallery h5 template</title>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      #banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      #bannerImg {
+        width: 100%;
+      }
+
+      #close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 24px;
+        height: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <img src="./images/background2.png" style="width: 100vw" />
+    <div id="banner">
+      <img
+        id="bannerImg"
+        src="./images/538/1.gif"
+        alt=""
+        onclick="openUrl('https://www.google.com')"
+      />
+      <img src="./images/close.png" alt="" id="close" onclick="closeAd()" />
+    </div>
+  </body>
+  <script>
+    function openUrl(url) {
+      window.open(url);
+    }
+
+    function closeAd() {
+      document.getElementById("banner").remove();
+    }
+  </script>
+</html>
