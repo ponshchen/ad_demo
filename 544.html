@@ -105,6 +105,7 @@
     }
 
     function openAd() {
+      let shouldMinusOne = false;
       const slot = adVideoWrapper ? adVideoWrapper : adImageWrapper;
       const topWrapperHeight = adVideoWrapper
         ? adVideoWrapper.clientHeight
@@ -112,6 +113,13 @@
 
       const openHeight =
         topWrapperHeight + (adImage2Wrapper.clientWidth / 0.7 / 300) * 80;
+
+      if (
+        slot.clientHeight + (adImage2Wrapper.clientWidth / 0.7 / 300) * 80 >
+        adImage2Wrapper.clientWidth * 0.825641
+      ) {
+        shouldMinusOne = true;
+      }
 
       delay()
         .then(() => {
@@ -133,8 +141,7 @@
       slot.style.width = "100%";
       adWrapper.style.paddingBottom =
         (adImage2Wrapper.clientWidth / 0.7 / 300) * 80 + "px";
-      console.log(slot.clientHeight);
-      adBanner.style.top = slot.clientHeight + "px";
+      adBanner.style.top = slot.clientHeight + (shouldMinusOne ? -1 : 0) + "px";
       adBanner.style.width = "100%";
       adBanner.style.height =
         (adImage2Wrapper.clientWidth / 0.7 / 300) * 80 + "px";
