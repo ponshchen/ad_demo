@@ -1,0 +1,274 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>content-gallery h5 template</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: transparent;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        width: 320px;
+        height: 480px;
+        overflow: hidden;
+        position: relative;
+        padding: 1px;
+        box-sizing: border-box;
+      }
+
+      .topImage {
+        display: none;
+        width: 100%;
+      }
+
+      .bottom {
+        position: relative;
+        width: 318px;
+        height: 159px;
+        display: flex;
+        justify-content: center;
+      }
+
+      #bottomImage {
+        position: absolute;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+      }
+
+      #arrowLeft {
+        position: absolute;
+        width: 24px;
+        top: 53px;
+        left: 4px;
+        z-index: 100;
+      }
+
+      #arrowRight {
+        position: absolute;
+        width: 24px;
+        top: 53px;
+        right: 4px;
+        z-index: 100;
+      }
+
+      .swiper-container {
+        width: 250px;
+        height: 116px;
+        margin-top: 8px;
+        z-index: 10;
+      }
+
+      .swiper-slide {
+        width: 116px;
+        height: 116px;
+        opacity: 0;
+      }
+
+      .swiper-slide img {
+        width: 100%;
+      }
+
+      .swiper-slide-visible {
+        opacity: 1;
+      }
+
+      .swiper-slide-prev {
+        opacity: 1;
+      }
+
+      .swiper-slide-next {
+        opacity: 1;
+      }
+
+      #outline {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <div class="container">
+      <div class="top">
+        <img
+          src="./images/543/1-top.png"
+          class="topImage"
+          id="top_1"
+          style="display: block"
+          onclick="
+            openUrl('https://www.kia.com/tw/service/service-center.html')
+          "
+        />
+        <img
+          src="./images/543/2-top.png"
+          class="topImage"
+          id="top_2"
+          onclick="
+            openUrl('https://www.kia.com/tw/service/service-center.html')
+          "
+        />
+        <img
+          src="./images/543/3-top.png"
+          class="topImage"
+          id="top_3"
+          onclick="
+            openUrl('https://www.kia.com/tw/service/service-center.html')
+          "
+        />
+        <img
+          src="./images/543/4-top.png"
+          class="topImage"
+          id="top_4"
+          onclick="
+            openUrl('https://www.kia.com/tw/service/service-center.html')
+          "
+        />
+      </div>
+      <div class="bottom">
+        <img src="./images/543/bottom.png" alt="" id="bottomImage" />
+        <img
+          src="./images/543/arrowLeft.png"
+          id="arrowLeft"
+          onclick="slidePrev()"
+        />
+        <img
+          src="./images/543/arrowRight.png"
+          id="arrowRight"
+          onclick="slideNext()"
+        />
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img
+                src="./images/543/2.png"
+                alt=""
+                class="image2"
+                onclick="updateIndex(this)"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="./images/543/3.png"
+                alt=""
+                class="image3"
+                onclick="updateIndex(this)"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="./images/543/4.png"
+                alt=""
+                class="image4"
+                onclick="updateIndex(this)"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="./images/543/2.png"
+                alt=""
+                class="image2"
+                onclick="updateIndex(this)"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="./images/543/3.png"
+                alt=""
+                class="image3"
+                onclick="updateIndex(this)"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="./images/543/4.png"
+                alt=""
+                class="image4"
+                onclick="updateIndex(this)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <img src="./images/543/5.png" alt="" id="outline" />
+    </div>
+    <img src="./images/background2.png" style="width: 100vw" />
+  </body>
+  <script>
+    const maxIndex = 4;
+    let index = 1;
+    const swiper = new Swiper(".swiper-container", {
+      effect: "coverflow",
+      centeredSlides: true,
+      slidesPerView: "auto",
+      loop: true,
+      preventClicks: true,
+      loopedSlides: 3,
+      allowTouchMove: false,
+      spaceBetween: "70px",
+      coverflowEffect: {
+        slideShadows: false,
+        rotate: 0,
+        stretch: 0,
+        depth: 700,
+      },
+    });
+
+    swiper.on("slideChangeTransitionEnd", function (s) {
+      if (s.activeIndex === 1) {
+        s.slideTo(4, 0);
+      }
+    });
+
+    const slideNext = () => {
+      swiper.slideNext();
+    };
+
+    const slidePrev = () => {
+      swiper.slidePrev();
+    };
+
+    const updateIndex = (element) => {
+      const className = element.classList[0];
+      const targetIndex = Number(className.substr(className.length - 1));
+      const elements = document.getElementsByClassName(`image${targetIndex}`);
+      [...elements].forEach((element) => {
+        element.classList.remove(`image${targetIndex}`);
+        element.classList.add(`image${index}`);
+        element.src = `./images/543/${index}.png`;
+      });
+      index = targetIndex;
+      for (let i = 1; i < maxIndex + 1; i++) {
+        const topImage = document.getElementById(`top_${i}`);
+        if (i === index) {
+          topImage.style.display = "block";
+        } else {
+          topImage.style.display = "none";
+        }
+      }
+    };
+
+    const openUrl = (url) => {
+      window.open(url);
+    };
+  </script>
+</html>
