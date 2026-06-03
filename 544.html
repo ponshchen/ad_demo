@@ -18,54 +18,45 @@
         overflow: hidden;
         display: flex;
         flex-direction: row-reverse;
+        transition: 0.8s;
       }
 
-      #video-wrapper {
-        margin: 0;
-        padding: 0;
+      #top {
+        position: absolute;
+        right: 0;
+        width: 30%;
+        height: 100%;
         overflow: hidden;
-        width: 30%;
-        cursor: pointer;
+        transition: 0.8s;
       }
 
-      #video {
+      #topImage {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
 
-      #img-wrapper {
-        cursor: pointer;
-        width: 30%;
-      }
-
-      #img {
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
-      }
-
-      #image2-wrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      #image2-wrapper img {
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
-      }
-
-      #banner {
-        position: absolute;
-        top: 0;
-        left: 0;
+      #bottom {
         width: 70%;
         height: 100%;
+        left: 0;
+        bottom: 0;
+        position: absolute;
         overflow: hidden;
+        transition: 0.8s;
+      }
+
+      #bottomImage {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+        height: 100%;
+      }
+
+      #cover {
+        display: none;
+        width: 100%;
       }
     </style>
   </head>
@@ -73,27 +64,21 @@
     <img src="./images/background0.png" style="width: 100vw" />
     <img src="./images/background1.png" style="width: 100vw" />
     <div id="ad-wrapper" onclick="openUrl()">
-      <div id="img-wrapper">
-        <img src="./images/544/top.gif" id="video" />
+      <div id="top">
+        <img src="./images/544/top.png" id="topImage" />
       </div>
-      <div id="banner" class="swiper-wrapper">
-        <div id="image2-wrapper">
-          <img src="./images/544/bottom.gif" />
-        </div>
+      <div id="bottom">
+        <img src="./images/544/bottom.png" id="bottomImage" />
       </div>
+      <img src="./images/544/cover.gif" id="cover" />
     </div>
     <img src="./images/background2.png" style="width: 100vw" />
   </body>
   <script>
-    const video = document.getElementById("video");
-    const adWrapper = document.getElementById("ad-wrapper");
-    const adVideoWrapper = document.getElementById("video-wrapper");
-    const adVideo = document.getElementById("video");
-    const adImageWrapper = document.getElementById("img-wrapper");
-    const adBanner = document.getElementById("banner");
-    const adImage2Wrapper = document.getElementById("image2-wrapper");
-  </script>
-  <script>
+    const ad = document.getElementById("ad-wrapper");
+    const topDiv = document.getElementById("top");
+    const bottomDiv = document.getElementById("bottom");
+
     function delay(s) {
       return new Promise(function (resolve, reject) {
         setTimeout(resolve, s);
@@ -105,58 +90,31 @@
     }
 
     function openAd() {
-      let shouldMinusOne = false;
-      const slot = adVideoWrapper ? adVideoWrapper : adImageWrapper;
-      const topWrapperHeight = adVideoWrapper
-        ? adVideoWrapper.clientHeight
-        : adImageWrapper.clientHeight;
+      ad.style.display = "block";
+      ad.style.height = `${ad.clientWidth / 1.2}px`;
+      topDiv.style.height = `${ad.clientWidth * 0.56666667}px`;
+      topDiv.style.width = "100%";
+      bottomDiv.style.height = `${ad.clientWidth / 3.75}px`;
+      bottomDiv.style.width = "100%";
 
-      const openHeight =
-        topWrapperHeight + (adImage2Wrapper.clientWidth / 0.7 / 300) * 80;
-
-      if (
-        slot.clientHeight + (adImage2Wrapper.clientWidth / 0.7 / 300) * 80 >
-        adImage2Wrapper.clientWidth * 0.825641
-      ) {
-        shouldMinusOne = true;
-      }
-
-      delay()
-        .then(() => {
-          if (false) {
-            adImage2Wrapper.style.opacity = 0;
-            TweenMax.to(adImage2Wrapper, 0, { opacity: 1 });
-            return delay(0);
-          }
-        })
-        .then(() => {
-          if (false) {
-            TweenMax.to(adImage2Wrapper, 0, { opacity: 0 });
-          }
-        });
-
-      slot.style.transition = "width 0.8s";
-      adBanner.style.transition = "all 0.8s";
-
-      slot.style.width = "100%";
-      adWrapper.style.paddingBottom =
-        (adImage2Wrapper.clientWidth / 0.7 / 300) * 80 + "px";
-      adBanner.style.top = slot.clientHeight + (shouldMinusOne ? -1 : 0) + "px";
-      adBanner.style.width = "100%";
-      adBanner.style.height =
-        (adImage2Wrapper.clientWidth / 0.7 / 300) * 80 + "px";
+      setTimeout(() => {
+        const cover = document.getElementById("cover");
+        cover.style.display = "block";
+        topDiv.remove();
+        bottomDiv.remove();
+      }, 800);
     }
   </script>
   <script>
     let isOpened = false;
 
     window.addEventListener("scroll", (event) => {
-      const videoHeight = video.getBoundingClientRect().height;
-      const topValue = video.getBoundingClientRect().y;
+      const adHeight = ad.getBoundingClientRect().height;
+      const topValue = ad.getBoundingClientRect().y;
       const screenH = window.screen.height;
 
       if (!isOpened) {
-        if (topValue < screenH - videoHeight) {
+        if (topValue < screenH - adHeight) {
           openAd();
           isOpened = true;
         }
