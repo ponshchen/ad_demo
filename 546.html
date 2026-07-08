@@ -1,0 +1,114 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>變形小金剛-影+圖</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/plugins/PixiPlugin.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      #ad-wrapper {
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+      }
+
+      #gif {
+        height: 100vh;
+        width: 100vw;
+        object-fit: cover;
+      }
+
+      #videoContainer {
+        display: none;
+        width: 100%;
+        position: relative;
+      }
+
+      video {
+        width: 100%;
+      }
+
+      #muteButton {
+        position: absolute;
+        bottom: 16px;
+        right: 10px;
+        height: 24px;
+        width: 24px;
+      }
+
+      #close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 24px;
+        height: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./images/background0.png" style="width: 100vw" />
+    <img src="./images/background1.png" style="width: 100vw" />
+    <img src="./images/background2.png" style="width: 100vw" />
+    <div id="ad-wrapper">
+      <img src="./images/546/1.gif" alt="" id="gif" onclick="openUrl()" />
+      <div id="videoContainer">
+        <video
+          muted
+          playsinline
+          loop
+          style="width: 100%"
+          id="video"
+          onclick="openUrl()"
+        >
+          <source src="./images/546/video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <img
+          onclick="muteButtonOnClick()"
+          src="./images/mute.png"
+          id="muteButton"
+        />
+        <img src="./images/close.png" alt="" id="close" onclick="closeAd()" />
+      </div>
+    </div>
+  </body>
+  <script>
+    const adWrapper = document.getElementById("ad-wrapper");
+    const gif = document.getElementById("gif");
+    const videoContainer = document.getElementById("videoContainer");
+    const video = document.getElementById("video");
+    const muteButton = document.getElementById("muteButton");
+
+    playGif();
+
+    setTimeout(() => {
+      gif.remove();
+      videoContainer.style.display = "block";
+      video.play();
+    }, 4000); // gif 播放時間
+
+    function openUrl() {
+      window.open("https://lihi1.com/7pw8P");
+    }
+
+    function playGif() {
+      const src = gif.src.split("?")[0]; // 去掉舊的 timestamp
+      gif.src = src + "?t=" + Date.now(); // 加新的 timestamp 強制重新載入
+    }
+
+    function muteButtonOnClick() {
+      video.muted = !video.muted;
+      muteButton.src = `./images/${video.muted ? "mute" : "volume"}.png`;
+    }
+
+    function closeAd() {
+      adWrapper.remove();
+    }
+  </script>
+</html>
