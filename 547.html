@@ -29,6 +29,7 @@
       .swiper-container {
         width: 100%;
         height: 150vw;
+        opacity: 0;
       }
 
       .swiper-slide {
@@ -88,12 +89,12 @@
     <img src="./images/background0.png" style="width: 100vw" />
     <img src="./images/background1.png" style="width: 100vw" />
     <div class="banner" id="banner">
-      <video muted playsinline autoplay id="video">
+      <video muted playsinline id="video">
         <source src="./images/547/video.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <!-- Swiper -->
-      <div class="swiper-container">
+      <div class="swiper-container" id="swiper-container">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
             <img
@@ -128,6 +129,7 @@
   <script>
     const finger = document.getElementById("finger");
     const video = document.getElementById("video");
+    const swiperContainer = document.getElementById("swiper-container");
     var swiper = new Swiper(".swiper-container", {
       effect: "creative",
       grabCursor: true,
@@ -148,17 +150,32 @@
       },
     });
 
-    swiper.on("slideChange", function () {
-      finger.style.opacity = "0";
-    });
+    window.addEventListener("scroll", scrollListener);
 
-    setInterval(() => {
-      swiper.slideNext();
-      finger.style.opacity = "0";
-    }, 4000);
+    function scrollListener() {
+      const videoHeight = video.getBoundingClientRect().height;
+      const topValue = video.getBoundingClientRect().y;
+      const screenH = window.screen.height;
+
+      if (topValue < screenH) {
+        video.play();
+        window.removeEventListener("scroll", scrollListener);
+      }
+    }
 
     video.addEventListener("ended", () => {
       video.style.opacity = "0";
+      swiperContainer.style.opacity = "1";
+
+      swiper.on("slideChange", function () {
+        finger.style.opacity = "0";
+      });
+
+      setInterval(() => {
+        swiper.slideNext();
+        finger.style.opacity = "0";
+      }, 4000);
+
       setTimeout(() => {
         video.remove();
       }, 500);
